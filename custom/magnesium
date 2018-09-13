@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Adjust defaults
+
+###############################################################################
+# Power Options                                                               #
+###############################################################################
+
+# Change default sleep from 0 to 60 
+sudo pmset -a sleep 60
+
+###############################################################################
+# Extras
+###############################################################################
+
+# Activate audible chime when power cable is plugged in.
+defaults write com.apple.PowerChime ChimeOnAllHardware -bool true; open /System/Library/CoreServices/PowerChime.app

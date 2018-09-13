@@ -1,0 +1,70 @@
+cask_args appdir: "/Applications"
+cask_args colorpickerdir: "/Library/ColorPickers"
+cask_args fontdir: "/Library/Fonts"
+cask_args screen_saverdir: "/Library/Screen Savers"
+tap "buo/cask-upgrade"
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/cask-drivers"
+tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
+tap "homebrew/core"
+tap "homebrew/services"
+brew "ffmpeg"
+brew "git"
+brew "handbrake"
+brew "id3lib"
+brew "mas"
+brew "media-info"
+brew "mkvtoolnix"
+brew "mp4v2"
+brew "mpv"
+brew "node"
+brew "task-spooler"
+brew "wget"
+cask "1password"
+cask "backblaze"
+cask "cleanmymac"
+cask "aerial"
+cask "appzapper"
+cask "blueharvest"
+cask "dropbox"
+cask "downie"
+cask "drobo-dashboard"
+cask "etcher"
+cask "filebot"
+cask "filezilla"
+cask "flash-npapi"
+cask "fujitsu-scansnap-manager-ix500"
+cask "google-chrome"
+cask "hazel"
+cask "java"
+cask "musicbrainz-picard"
+cask "mkvtools"
+cask "makemkv"
+cask "plex-media-player"
+cask "slack"
+cask "sonarr"
+cask "sonos"
+cask "steam"
+cask "transmit"
+cask "tagger"
+cask "vlc"
+mas "AudioBookBinder", id: 413969927
+mas "AutoMounter", id: 1160435653
+mas "Blackmagic Disk Speed Test", id: 425264550
+mas "DxOOpticsProForPhotos", id: 1056077392
+mas "iMovie", id: 408981434
+mas "Keynote", id: 409183694
+mas "Lingon 3", id: 450201424
+mas "Magnet", id: 441258766
+mas "Music Tag Edit", id: 999242964
+mas "Name Mangler 3", id: 603637384
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "Paprika Recipe Manager 3", id: 1303222628
+mas "Pixelmator", id: 407963104
+mas "Reeder", id: 880001334
+mas "TextWrangler", id: 404010395
+mas "The Unarchiver", id: 425424353
+mas "The Unarchiver", id: 425424353
