@@ -18,7 +18,6 @@ brew "node"
 brew "task-spooler"
 brew "wget"
 brew "dockutil"
-cask "1password"
 cask "backblaze"
 cask "cleanmymac"
 cask "aerial"
@@ -45,6 +44,7 @@ cask "steam"
 cask "transmit"
 cask "tagger"
 cask "vlc"
+mas "1Password 7", id: 1333542190
 mas "AudioBookBinder", id: 413969927
 mas "AutoMounter", id: 1160435653
 mas "Blackmagic Disk Speed Test", id: 425264550

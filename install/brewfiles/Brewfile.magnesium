@@ -11,7 +11,6 @@ brew "media-info"
 brew "task-spooler"
 brew "wget"
 brew "dockutil"
-cask "1password"
 cask "appzapper"
 cask "blueharvest"
 cask "dropbox"
@@ -25,6 +24,7 @@ cask "plex-media-player"
 cask "sonos"
 cask "transmit"
 cask "vlc"
+mas "1Password 7", id: 1333542190
 mas "AutoMounter", id: 1160435653
 mas "Blackmagic Disk Speed Test", id: 425264550
 mas "DxOOpticsProForPhotos", id: 1056077392
