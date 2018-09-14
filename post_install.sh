@@ -34,7 +34,7 @@ osname=$(uname)
 
 export BOOTSTRAP_REPO_URL="https://github.com/khaosx/macos-setup.git"
 export BOOTSTRAP_DIR=$HOME/macos-setup
-export DOTFILES_DIR=$HOME/dotfiles
+export DOTFILES_DIR=$HOME/macos-setup/dotfiles
 DEFAULT_COMPUTER_NAME="Lithium"
 DEFAULT_TIME_ZONE="America/New_York"
 
@@ -150,7 +150,7 @@ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.serve
 systemsetup -settimezone "$TIME_ZONE" > /dev/null
 
 # shellcheck source=/dev/null
-source "$BOOTSTRAP_DIR"/install/macos-defaults
+source "$BOOTSTRAP_DIR/install/macos-defaults"
 
 post_echo "Done!"
 
@@ -161,13 +161,13 @@ post_echo "Done!"
 
 post_echo "Step 4: Installing customizations based on machine name..."
 
-if [ -e "$BOOTSTRAP_DIR/brewfiles/Brewfile.$HOST_NAME" ]; then
-   cp "$BOOTSTRAP_DIR/brewfiles/Brewfile.$HOST_NAME" $HOME/.Brewfile
+if [ -f "$BOOTSTRAP_DIR/install/brewfiles/Brewfile.$HOST_NAME" ]; then
+   cp "$BOOTSTRAP_DIR/install/brewfiles/Brewfile.$HOST_NAME" $HOME/.Brewfile
    brew doctor
    brew bundle --global
 fi
 
-if [ -e "$BOOTSTRAP_DIR/custom/$HOST_NAME" ]; then
+if [ -f "$BOOTSTRAP_DIR/custom/$HOST_NAME" ]; then
    source "$BOOTSTRAP_DIR/custom/$HOST_NAME"
 fi
 
