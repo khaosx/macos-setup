@@ -27,6 +27,10 @@ It pulls down a script that installs a bunch of stuff using brew and mas, and th
 
 None. That's the whole point.
 
+## To-Do
+* Fix screensaver in custom install
+* Fix homepage in Safair
+
 ## License
 
 No copyright implied or inferred. [GLWT License](https://github.com/khaosx/macos-setup/blob/master/LICENSE)
