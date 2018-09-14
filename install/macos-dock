@@ -1,24 +1,31 @@
 #!/bin/bash
 
 dockutil --no-restart --remove all
-# dockutil --no-restart --add "/Applications/Launchpad.app"
-# dockutil --no-restart --add "/Applications/Google Chrome.app"
-# dockutil --no-restart --add "/Applications/Spark.app"
-# dockutil --no-restart --add "/Applications/Fantastical 2.app"
-# dockutil --no-restart --add "/Applications/Messages.app"
-# dockutil --no-restart --add "/Applications/Notes.app"
-# dockutil --no-restart --add "/Applications/Things3.app"
-# dockutil --no-restart --add "/Applications/Evernote.app"
-# dockutil --no-restart --add "/Applications/Tweetbot.app"
-# dockutil --no-restart --add "/Applications/iTunes.app"
-# dockutil --no-restart --add "/Applications/Skype.app"
-# dockutil --no-restart --add "/Applications/Slack.app"
-# dockutil --no-restart --add "/Applications/1Password.app"
-# dockutil --no-restart --add "/Applications/Postico.app"
-# dockutil --no-restart --add "/Applications/iTerm.app"
-# dockutil --no-restart --add "/Applications/Dash.app"
-# dockutil --no-restart --add "/Applications/System Preferences.app"
 
+dockutil --no-restart --add "/Applications/Safari.app"
+dockutil --no-restart --add "/Applications/Google Chrome.app"
+dockutil --no-restart --add "/Applications/Mail.app"
+dockutil --no-restart --add "/Applications/Messages.app"
+dockutil --no-restart --add "/Applications/Calendar.app"
+dockutil --no-restart --add "/Applications/Contacts.app"
+dockutil --no-restart --add "/Applications/Notes.app"
+dockutil --no-restart --add "/Applications/Reminders.app"
+dockutil --no-restart --add "/Applications/Maps.app"
+dockutil --no-restart --add "/Applications/iTunes.app"
+dockutil --no-restart --add "/Applications/Photos.app"
+dockutil --no-restart --add "/Applications/TextWrangler.app"
+dockutil --no-restart --add "/Applications/Reeder.app"
+dockutil --no-restart --add "/Applications/FileBot.app"
+dockutil --no-restart --add "/Applications/Numbers.app"
+dockutil --no-restart --add "/Applications/Pages.app"
+dockutil --no-restart --add "/Applications/Paprika Recipe Manager 3.app"
+dockutil --no-restart --add "/Applications/Plex Media Player.app"
+dockutil --no-restart --add "/Applications/ScanSnap/ScanSnap Manager.app"
+dockutil --no-restart --add "/Applications/Sonos.app"
+dockutil --no-restart --add "/Applications/Utilities/Terminal.app"
+dockutil --no-restart --add "/Applications/App Store.app"
+dockutil --no-restart --add "/Applications/System Preferences.app"
+dockutil --no-restart --add "~/Downloads" --view fan --section others --sort dateadded --display folder
 killall Dock
 
 # If you have trouble with icons appearing as generic placeholders, try running

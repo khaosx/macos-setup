@@ -215,9 +215,9 @@ post_echo "Done!"
 
 post_echo "Step 7: Setting Final preferences..."
 
-#source "$BOOTSTRAP_DIR"/install/macos-dock
+source "$BOOTSTRAP_DIR"/install/macos-dock
 
-#rm -rf "$BOOTSTRAP_DIR"
+rm -rf "$BOOTSTRAP_DIR"
 
 post_echo "Done!"
 
