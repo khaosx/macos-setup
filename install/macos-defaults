@@ -7,9 +7,8 @@ osascript -e 'tell application "System Preferences" to quit'
 # General UI/UX                                                               #
 ###############################################################################
 
-# Set a blazingly fast keyboard repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 1
-defaults write NSGlobalDomain InitialKeyRepeat -int 5
+# Set new window target in Finder to $HOME
+defaults write com.apple.finder NewWindowTarget -string 'Pfhm'
 
 # Appearance: Graphite
 /usr/bin/defaults write -g 'AppleAquaColorVariant' -int 6
