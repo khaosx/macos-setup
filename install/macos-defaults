@@ -10,6 +10,9 @@ osascript -e 'tell application "System Preferences" to quit'
 # Set new window target in Finder to $HOME
 defaults write com.apple.finder NewWindowTarget -string 'Pfhm'
 
+# Remove Tags from sidebar
+defaults write com.apple.finder ShowRecentTags -bool false
+
 # Appearance: Graphite
 /usr/bin/defaults write -g 'AppleAquaColorVariant' -int 6
 
