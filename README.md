@@ -9,6 +9,7 @@ Tested on MacOS High Sierra (10.13)
 * A Mac
 * with an OS
 * named Lithium, Sodium, or Magnesium.
+* Also, you should sign into the Mac App Store if you didn't do the iCloud setup. All mas installs will fail.
 
 ## Installation
 
