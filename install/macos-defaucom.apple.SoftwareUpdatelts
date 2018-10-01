@@ -16,8 +16,11 @@ defaults write com.apple.finder ShowRecentTags -bool false
 # Appearance: Graphite
 /usr/bin/defaults write -g 'AppleAquaColorVariant' -int 6
 
-# Highlight color: #CC99CC
-/usr/bin/defaults write -g 'AppleHighlightColor' -string '0.600000 0.800000 0.600000'
+# Accent Color: Black
+/usr/bin/defaults write -g 'AppleAccentColor' -int -1
+
+# Highlight color: Graphite
+/usr/bin/defaults write -g 'AppleHighlightColor' -string '0.847059 0.847059 0.862745'
 
 # Show scroll bars: Always
 /usr/bin/defaults write -g 'AppleShowScrollBars' -string 'Always'
@@ -143,6 +146,12 @@ defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
 # Finder: show status bar
 defaults write com.apple.finder ShowStatusBar -bool true
 
+# Finder: Empty trash after 30 days
+defaults write com.apple.finder FXRemoveOldTrashItems -bool true
+
+# Finder: Open Windows, not Tabs
+defaults write com.apple.finder FinderSpawnTab -bool false
+
 # Finder: allow text selection in Quick Look
 defaults write com.apple.finder QLEnableTextSelection -bool true
 
@@ -167,36 +176,35 @@ defaults write com.apple.finder FXPreferredViewStyle -string "nlsv"
 # Disable the warning before emptying the Trash
 defaults write com.apple.finder WarnOnEmptyTrash -bool false
 
-# Show the ~/Library folder
-chflags nohidden ~/Library
-
 ###############################################################################
-# App Store and Software Updates                                              #
+# App Store                                                                   #
 ###############################################################################
 
-# Automatically install app store updates
-sudo defaults write /Library/Preferences/com.apple.commerce AutoUpdate -bool TRUE
+# Do not ask for reviews
+sudo defaults write /Library/Preferences/com.apple.commerce InAppReviewEnabled -bool false
 
-# Automatically install OS updates
-sudo defaults write /Library/Preferences/com.apple.commerce AutoUpdateRestartRequired -bool TRUE
+# Turn off video autoplay
+defaults write com.apple.AppStore UserSetAutoPlayVideoSetting -int 1
+defaults write com.apple.AppStore AutoPlayVideoSetting -string off
 
-# Enable the automatic update check
-defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
+###############################################################################
+# Software Updates                                                            #
+###############################################################################
 
 # Check for software updates daily, not just once per week
-defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate.plist AutomaticCheckEnabled -int 1
 
-# Download newly available updates in background
-defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
+# Check for software updates daily, not just once per week
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate.plist AutomaticDownload -int 1
 
-# Install System data files & security updates
-defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
+# Check for software updates daily, not just once per week
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate.plist AutomaticallyInstallMacOSUpdates -int 1
 
-# Do not automatically download apps purchased on other Macs
-defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 0
+# Check for software updates daily, not just once per week
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate.plist ConfigDataInstall -int 1
 
-# Allow the App Store to reboot machine on macOS updates
-defaults write com.apple.commerce AutoUpdateRestartRequired -bool true
+# Check for software updates daily, not just once per week
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate.plist CriticalUpdateInstall -int 1
 
 ###############################################################################
 # Time Machine                                                                #
@@ -371,8 +379,12 @@ defaults write com.apple.screensaver askForPasswordDelay -int 5
 defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName -string "Shell" path -string "/System/Library/Screen Savers/Shell.saver" type -int 0
 
 # Hot corners -> bottom left -> start screen saver
-defaults write com.apple.dock "wvous-bl-corner" -int 5
-defaults write com.apple.dock "wvous-bl-modifier" -int 0
+defaults write com.apple.dock "wvous-bl-corner" -int 13;
+defaults write com.apple.dock "wvous-bl-modifier" -int 0;
+defaults write com.apple.dock "wvous-br-corner" -int 5;
+defaults write com.apple.dock "wvous-br-modifier" -int 0;
+defaults write com.apple.dock "wvous-tl-corner" -int 6;
+defaults write com.apple.dock "wvous-tl-modifier" -int 0;
 
 ###############################################################################
 # Power Options                                                               #
@@ -386,6 +398,7 @@ sudo pmset -a autopoweroffdelay 86400
 sudo pmset -a hibernatemode 0
 sudo pmset -a sleep 0
 sudo pmset -a disksleep 0
+sudo pmset -a displaysleep 60
 	
-# Destroy filevault key
-sudo pmset -a destroyfvkeyonstandby 1
+# Destroy filevault key - NOTE: This deactivates powernap function
+# sudo pmset -a destroyfvkeyonstandby 1
