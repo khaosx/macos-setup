@@ -39,12 +39,15 @@ sudo pmset -c autopoweroffdelay 86400
 # Dim display off
 sudo pmset -c lessbright 0
 
+# Set display sleep
+sudo pmset -c displaysleep 25
 
 ###############################################################################
 # Power Options - Battery                                                     #
 ###############################################################################
 
 # Change display sleep to 10
+sudo pmset -b displaysleep 10
 
 # Change default sleep from 0 to 15 minutes
 sudo pmset -b sleep 15
