@@ -8,11 +8,14 @@ sudo gem install video_transcoding
 # Power Options - Desktop                                                     #
 ###############################################################################
 
+# Irrelevant with an SSD, but pmset is an asshole about sleep settings.
+sudo pmset -a disksleep 60
+
 # Change default sleep from 0 to 60 minutes
 sudo pmset -a sleep 60
 
-# Irrelevant with an SSD, but pmset is an asshole about sleep settings.
-sudo pmset -a disksleep 60
+# Set display sleep
+sudo pmset -a displaysleep 60
 
 # Turn on powernap
 sudo pmset -a powernap 1
@@ -34,9 +37,6 @@ sudo pmset -a autopoweroffdelay 86400
 
 # Dim display off
 sudo pmset -a lessbright 0
-
-# Set display sleep
-sudo pmset -a displaysleep 60
 
 ###############################################################################
 # Screen Saver                                                                #
