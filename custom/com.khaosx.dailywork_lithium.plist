@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Label</key>
-	<string>Daily Work</string>
+	<string>Daily Work Script</string>
 	<key>ProgramArguments</key>
 	<array>
 		<string>/Users/kris/Documents/scripts/daily_work.sh</string>
@@ -11,9 +11,9 @@
 	<key>StartCalendarInterval</key>
 	<dict>
 		<key>Hour</key>
-		<integer>4</integer>
+		<integer>5</integer>
 		<key>Minute</key>
-		<integer>15</integer>
+		<integer>00</integer>
 	</dict>
 </dict>
 </plist>
