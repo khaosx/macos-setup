@@ -122,6 +122,13 @@ brew tap "homebrew/bundle"
 brew tap "caskroom/drivers"
 brew install mas
 
+# Temp workaround for MAS sign-in issue
+curl -L -o ~/Downloads/mas-cli.zip https://github.com/mas-cli/mas/releases/download/v1.4.2/mas-cli.zip
+unzip ~/Downloads/mas-cli.zip
+rm ~/Downloads/mas-cli.zip
+mv /usr/local/bin/mas /usr/local/bin/mas_1.4.1
+mv ~/Downloads/mas /usr/local/bin/mas
+
 post_echo "Done!"
 
 ################################################################################
@@ -131,9 +138,6 @@ post_echo "Done!"
 post_echo "Step 2: Cloning macos-setup repo..."
 
 git clone "$BOOTSTRAP_REPO_URL" "$BOOTSTRAP_DIR"
-
-# Temp workaround for MAS sign-in issue
-cp "$BOOTSTRAP_DIR/install/mas" /usr/local/bin/mas
 
 post_echo "Done!"
 
