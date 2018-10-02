@@ -31,6 +31,7 @@ None. That's the whole point.
 ## To-Do
 * ~~Fix screensaver in custom install~~
 * ~~Fix homepage in Safari~~
+* Create plist and load via launchctl
 
 ## License
 
