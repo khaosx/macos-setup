@@ -225,6 +225,8 @@ post_echo "Step 7: Setting Final preferences..."
 source "$BOOTSTRAP_DIR"/install/macos-dock
 
 rm -rf "$BOOTSTRAP_DIR"
+cp -R /Volumes/Storage/Apps/all/* ~/Desktop
+cp -R /Volumes/Storage/Apps/$HOSTNAME/* ~/Desktop
 
 post_echo "Done!"
 
