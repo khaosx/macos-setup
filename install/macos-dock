@@ -29,13 +29,13 @@ dockutil --no-restart --add "/Applications/App Store.app"
 dockutil --no-restart --add "/Applications/System Preferences.app"
 dockutil --no-restart --add "~/Downloads" --view fan --section others --sort dateadded --display folder
 
-if [ "$HOSTNAME" = magnesium ]; then
+if [ "$HOST_NAME" = magnesium ]; then
     dockutil --no-restart --remove "Google Chrome"
     dockutil --no-restart --remove "ScanSnap Manager"
     dockutil --no-restart --remove "TextWrangler"
     dockutil --no-restart --remove "Transmit"
     dockutil --no-restart --remove "Sonos"
-elif [ "$HOSTNAME" = sodium ]; then
+elif [ "$HOST_NAME" = sodium ]; then
     dockutil --no-restart --remove "ScanSnap Manager"
 fi
 
