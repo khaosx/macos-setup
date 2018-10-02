@@ -13,6 +13,7 @@ Tested on MacOS Mojave (10.14)
 
 ## Installation
 
+Seriously, log into the App Store before you run this. You have been warned.
 To install with a one-liner, run this:
 
 ```sh
