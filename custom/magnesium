@@ -7,7 +7,7 @@
 ###############################################################################
 
 # Set display to switch to integrated on battery and dedicated on AC
-sudo pmset -a gpuswitch 1
+sudo pmset -a gpuswitch 0
 
 ###############################################################################
 # Power Options - AC                                                          #
