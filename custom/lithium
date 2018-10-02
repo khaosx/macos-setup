@@ -4,8 +4,6 @@
 # https://github.com/donmelton/video_transcoding
 sudo gem install video_transcoding
 
-# Adjust defaults
-
 ###############################################################################
 # Power Options - Desktop                                                     #
 ###############################################################################
@@ -46,3 +44,10 @@ sudo pmset -a displaysleep 60
 
 # Screen Saver: Aerial
 defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName -string "Aerial" path -string "/Library/Screen Savers/Aerial.saver" type -int 0
+
+###############################################################################
+# Add launchctl jobs.                                                         #
+###############################################################################
+
+mv $HOME/macos-setup/custom/com.khaosx.dailywork_lithium.plist ~/Library/LaunchAgents/com.khaosx.dailywork.plist
+launchctl load ~/Library/LaunchAgents/com.khaosx.dailywork.plist
