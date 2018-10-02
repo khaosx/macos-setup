@@ -132,6 +132,9 @@ post_echo "Step 2: Cloning macos-setup repo..."
 
 git clone "$BOOTSTRAP_REPO_URL" "$BOOTSTRAP_DIR"
 
+# Temp workaround for MAS sign-in issue
+cp "$BOOTSTRAP_DIR/install/mas" /usr/local/bin/mas
+
 post_echo "Done!"
 
 
