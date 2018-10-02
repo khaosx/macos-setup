@@ -125,14 +125,13 @@ brew install mas
 # Temp workaround for MAS sign-in issue
 curl -L -o ~/Downloads/mas-cli.zip https://github.com/mas-cli/mas/releases/download/v1.4.2/mas-cli.zip
 unzip ~/Downloads/mas-cli.zip
-rm ~/Downloads/mas-cli.zip
 mv /usr/local/bin/mas /usr/local/bin/mas_1.4.1
 mv ~/Downloads/mas /usr/local/bin/mas
 
 post_echo "Done!"
 
 ################################################################################
-# 2. Clone  repo
+# 2. Clone repo
 ################################################################################
 
 post_echo "Step 2: Cloning macos-setup repo..."
@@ -225,6 +224,7 @@ post_echo "Step 7: Setting Final preferences..."
 source "$BOOTSTRAP_DIR"/install/macos-dock
 
 rm -rf "$BOOTSTRAP_DIR"
+rm ~/Downloads/mas-cli.zip
 
 post_echo "Done!"
 
