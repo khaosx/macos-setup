@@ -29,8 +29,8 @@ It pulls down a script that installs a bunch of stuff using brew and mas, and th
 None. That's the whole point.
 
 ## To-Do
-~~* Fix screensaver in custom install~~
-~~* Fix homepage in Safari~~
+* ~~Fix screensaver in custom install~~
+* ~~Fix homepage in Safari~~
 
 ## License
 
