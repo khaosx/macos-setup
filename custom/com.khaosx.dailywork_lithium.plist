@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Label</key>
-	<string>Daily Work Script</string>
+	<string>com.khaosx.dailywork</string>
 	<key>ProgramArguments</key>
 	<array>
 		<string>/Users/kris/Documents/scripts/daily_work.sh</string>
