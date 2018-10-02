@@ -2,7 +2,7 @@
 
 Script to be run after MacOS install to set preferences and install apps. Shamelessly stolen from [joshukraine](https://github.com/joshukraine/) and modified by me. Odds are, this won't be useful to you except as a template to build your own. I mean it. It's really dammed unlikely that this is going to even run. Give it a shot though. It works for me, most of the time. Feel free to fork it, but you're better off going to the above mentioned page and getting the original. Licensed under the "Good Luck With That" public license.
 
-Tested on MacOS High Sierra (10.13)
+Tested on MacOS Mojave (10.14)
 
 ## Prerequisites
 
