@@ -3,7 +3,7 @@
 ################################################################################
 # install.sh
 #
-# This script symlinks the dotfiles into place in the home directory.
+# Symlinks the dotfiles into place in the home directory.
 ################################################################################
 
 dotfiles_echo() {
