@@ -164,6 +164,11 @@ defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 # Avoid creating .DS_Store files on network volumes
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 
+# Speed up SMB browsing by disabling cache
+echo "[default]" | sudo tee -a /etc/nsmb.conf
+echo "signing_required=no" | sudo tee -a /etc/nsmb.conf
+echo "dir_cache_off=yes" | sudo tee -a /etc/nsmb.conf
+
 # Disable disk image verification
 defaults write com.apple.frameworks.diskimages skip-verify -bool true
 defaults write com.apple.frameworks.diskimages skip-verify-locked -bool true
