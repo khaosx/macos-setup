@@ -13,11 +13,14 @@ sudo pmset -a gpuswitch 1
 # Power Options - AC                                                          #
 ###############################################################################
 
+# Irrelevant with an SSD, but pmset is an asshole about sleep settings.
+sudo pmset -c disksleep 30
+
 # Change default sleep from 0 to 30 minutes
 sudo pmset -c sleep 30
 
-# Irrelevant with an SSD, but pmset is an asshole about sleep settings.
-sudo pmset -c disksleep 30
+# Set display sleep
+sudo pmset -c displaysleep 25
 
 # Turn on powernap
 sudo pmset -c powernap 1
@@ -39,21 +42,18 @@ sudo pmset -c autopoweroffdelay 86400
 # Dim display off
 sudo pmset -c lessbright 0
 
-# Set display sleep
-sudo pmset -c displaysleep 25
-
 ###############################################################################
 # Power Options - Battery                                                     #
 ###############################################################################
 
-# Change display sleep to 10
-sudo pmset -b displaysleep 10
+# Irrelevant with an SSD, but pmset is an asshole about sleep settings.
+sudo pmset -b disksleep 15
 
 # Change default sleep from 0 to 15 minutes
 sudo pmset -b sleep 15
 
-# Irrelevant with an SSD, but pmset is an asshole about sleep settings.
-sudo pmset -b disksleep 15
+# Change display sleep to 15
+sudo pmset -b displaysleep 15
 
 # Turn off powernap
 sudo pmset -b powernap 0
