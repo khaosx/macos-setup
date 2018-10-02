@@ -11,4 +11,4 @@ sudo gem install video_transcoding
 ###############################################################################
 
 # Screen Saver: Aerial
-defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName -string "Aerial" path -string "/System/Library/Screen Savers/Aerial.saver" type -int 0
+defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName -string "Aerial" path -string "/Library/Screen Savers/Aerial.saver" type -int 0
