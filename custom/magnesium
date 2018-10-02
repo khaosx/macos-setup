@@ -9,6 +9,9 @@
 # Change default sleep from 0 to 60 
 sudo pmset -a sleep 60
 
+# Irrelevant with an SSD, but pmset is an asshole about sleep settings.
+sudo pmset -a disksleep 60
+
 ###############################################################################
 # Extras
 ###############################################################################
