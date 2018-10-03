@@ -32,6 +32,7 @@ None. That's the whole point.
 * ~~Fix screensaver in custom install~~
 * ~~Fix homepage in Safari~~
 * Create plist and load via launchctl
+* When MAS is updated, remove temp fixes
 
 ## License
 
