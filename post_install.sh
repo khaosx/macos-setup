@@ -174,6 +174,15 @@ if [ -f "$BOOTSTRAP_DIR/install/brewfiles/Brewfile.$HOST_NAME" ]; then
    brew bundle --global
 fi
 
+# Copy over stubborn apps
+if [ "$(ls -A /Volumes/Storage/Apps/all)" ]; then
+   cp -R /Volumes/Storage/Apps/all/* ~/Desktop
+fi
+
+if [ "$(ls -A /Volumes/Storage/Apps/$HOST_NAME)" ]; then
+   cp -R /Volumes/Storage/Apps/$HOST_NAME/* ~/Desktop
+fi
+
 if [ -f "$BOOTSTRAP_DIR/custom/$HOST_NAME" ]; then
    source "$BOOTSTRAP_DIR/custom/$HOST_NAME"
 fi
@@ -226,14 +235,6 @@ post_echo "Done!"
 post_echo "Step 7: Cleaning up..."
 
 rm -rf "$BOOTSTRAP_DIR"
-
-if [ "$(ls -A /Volumes/Storage/Apps/all)" ]; then
-   cp -R /Volumes/Storage/Apps/all/* ~/Desktop
-fi
-
-if [ "$(ls -A /Volumes/Storage/Apps/$HOST_NAME)" ]; then
-   cp -R /Volumes/Storage/Apps/$HOST_NAME/* ~/Desktop
-fi
 
 post_echo "Done!"
 
