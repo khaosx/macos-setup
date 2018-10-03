@@ -155,7 +155,7 @@ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.serve
 
 # Set the timezone; see `systemsetup -listtimezones` for other values
 systemsetup -settimezone "$TIME_ZONE" > /dev/null
-exit
+
 # shellcheck source=/dev/null
 source "$BOOTSTRAP_DIR/install/macos-defaults"
 
