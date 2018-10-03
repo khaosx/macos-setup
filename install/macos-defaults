@@ -400,20 +400,3 @@ defaults write com.apple.dock "wvous-br-corner" -int 5;
 defaults write com.apple.dock "wvous-br-modifier" -int 0;
 defaults write com.apple.dock "wvous-tl-corner" -int 6;
 defaults write com.apple.dock "wvous-tl-modifier" -int 0;
-
-###############################################################################
-# Power Options                                                               #
-###############################################################################
-
-# Disable sleep/hibernate/disk sleep mode
-sudo pmset -a standbydelay 86400
-sudo pmset -a standby 0
-sudo pmset -a autopoweroff 0
-sudo pmset -a autopoweroffdelay 86400
-sudo pmset -a hibernatemode 0
-sudo pmset -a sleep 0
-sudo pmset -a disksleep 0
-sudo pmset -a displaysleep 60
-	
-# Destroy filevault key - NOTE: This deactivates powernap function
-# sudo pmset -a destroyfvkeyonstandby 1
