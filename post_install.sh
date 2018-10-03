@@ -175,11 +175,11 @@ if [ -f "$BOOTSTRAP_DIR/install/brewfiles/Brewfile.$HOST_NAME" ]; then
 fi
 
 # Copy over stubborn apps
-if [ "$(ls -A /Volumes/Storage/Apps/all)" ]; then
+if [ "$(ls /Volumes/Storage/Apps/all)" ]; then
    cp -R /Volumes/Storage/Apps/all/* ~/Desktop
 fi
 
-if [ "$(ls -A /Volumes/Storage/Apps/$HOST_NAME)" ]; then
+if [ "$(ls /Volumes/Storage/Apps/$HOST_NAME)" ]; then
    cp -R /Volumes/Storage/Apps/$HOST_NAME/* ~/Desktop
 fi
 
