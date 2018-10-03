@@ -4,6 +4,20 @@
 # https://github.com/donmelton/video_transcoding
 sudo gem install video_transcoding
 
+mv "$HOME/Desktop/Close All.app" /Applications
+mv "$HOME/Desktop/inAudible.app" /Applications
+
+hdiutil attach -nobrowse "$HOME/Desktop/Duplicate Annihilator for Photos.dmg"
+cp -r "/Volumes/Duplicate Annihilator for Photos/Duplicate Annihilator for Photos.app" /Applications
+hdiutil detach "/Volumes/Duplicate Annihilator for Photos"
+
+hdiutil attach -nobrowse "$HOME/Desktop/MP3 Trimmer.dmg"
+cp -r "/Volumes/MP3 Trimmer/MP3 Trimmer.app" /Applications
+hdiutil detach "/Volumes/MP3 Trimmer"
+
+rm "$HOME/Desktop/Duplicate Annihilator for Photos.dmg"
+rm "$HOME/Desktop/MP3 Trimmer.dmg"
+
 ###############################################################################
 # Power Options - Desktop                                                     #
 ###############################################################################
