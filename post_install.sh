@@ -178,6 +178,9 @@ if [ -f "$BOOTSTRAP_DIR/custom/$HOST_NAME" ]; then
    source "$BOOTSTRAP_DIR/custom/$HOST_NAME"
 fi
 
+# Set up Dock
+source "$BOOTSTRAP_DIR"/install/macos-dock
+
 post_echo "Done!"
 
 
@@ -217,12 +220,10 @@ post_echo "Done!"
 
 
 ################################################################################
-# 7. Set macOS preferences
+# 7. Clean up
 ################################################################################
 
-post_echo "Step 7: Setting Final preferences..."
-
-source "$BOOTSTRAP_DIR"/install/macos-dock
+post_echo "Step 7: Cleaning up..."
 
 rm -rf "$BOOTSTRAP_DIR"
 
