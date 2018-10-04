@@ -15,7 +15,6 @@ cask "blueharvest"
 cask "dropbox"
 cask "downie"
 cask "etcher"
-cask "filebot"
 cask "flash-npapi"
 cask "hazel"
 cask "java"
@@ -39,3 +38,4 @@ mas "Reeder", id: 880001334
 mas "TextWrangler", id: 404010395
 mas "The Unarchiver", id: 425424353
 mas "MediaInfo", id: 510620098
+mas "FileBot", id: 905384638
