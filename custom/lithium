@@ -4,6 +4,7 @@
 # https://github.com/donmelton/video_transcoding
 sudo gem install video_transcoding
 
+sudo mv $HOME/Desktop/archey /usr/local/bin/archey
 mv "$HOME/Desktop/inAudible.app" /Applications
 
 hdiutil attach -nobrowse "$HOME/Desktop/Duplicate Annihilator for Photos.dmg"
