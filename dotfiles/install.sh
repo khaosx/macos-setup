@@ -20,6 +20,7 @@ files=(
 "gitconfig"
 "gitignore"
 "gitmessage"
+"bash_profile"
 )
 
 dotfiles_echo "Installing dotfiles..."
