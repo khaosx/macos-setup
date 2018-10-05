@@ -14,6 +14,7 @@ dotfiles_echo() {
 set -e # Terminate script if anything exits with a non-zero value
 
 DOTFILES_DIR=$HOME/dotfiles
+mkdir -p $DOTFILES_DIR
 
 files=(
 "gitconfig"
@@ -24,6 +25,7 @@ files=(
 dotfiles_echo "Installing dotfiles..."
 
 for file in "${files[@]}"; do
+  cp "$BOOTSTRAP_DIR/dotfiles/$file" $DOTFILES_DIR/
   dotfiles_echo "-> Linking $DOTFILES_DIR/$file to $HOME/.$file..."
   ln -nfs "$DOTFILES_DIR"/"$file" "$HOME"/."$file"
 done
