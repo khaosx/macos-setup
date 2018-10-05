@@ -63,5 +63,5 @@ defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName -s
 # Add launchctl jobs.                                                         #
 ###############################################################################
 
-mv $HOME/macos-setup/custom/com.khaosx.dailywork_lithium.plist ~/Library/LaunchAgents/com.khaosx.dailywork.plist
+mv "$BOOTSTRAP_DIR/custom/com.khaosx.dailywork_lithium.plist" "$HOME/Library/LaunchAgents/com.khaosx.dailywork.plist"
 launchctl load ~/Library/LaunchAgents/com.khaosx.dailywork.plist
