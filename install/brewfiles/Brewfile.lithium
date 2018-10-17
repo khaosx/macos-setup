@@ -10,6 +10,8 @@ tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
 tap "homebrew/core"
 tap "homebrew/services"
+tap "rockymadden/rockymadden"
+brew rockymadden/rockymadden/slack-cli
 brew "dockutil"
 brew "ffmpeg"
 brew "git"
