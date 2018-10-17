@@ -7,6 +7,9 @@ sudo gem install video_transcoding
 # Install pip for python goodness
 sudo easy_install pip
 
+#slack cleaner
+sudo pip install slack-cleaner
+
 sudo mv $HOME/Desktop/archey /usr/local/bin/archey
 mv "$HOME/Desktop/inAudible.app" /Applications
 
