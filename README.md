@@ -26,13 +26,14 @@ It pulls down a script that installs a bunch of stuff using brew and mas, and th
 
 ## Post-install Tasks
 
-None. That's the whole point.
+There's a few things to do once the install is complete. I'll document them one of these days.
 
 ## To-Do
 * ~~Fix screensaver in custom install~~
 * ~~Fix homepage in Safari~~
-* Create plist and load via launchctl
+* ~~Create plist and load via launchctl~~
 * When MAS is updated, remove temp fixes
+* Document post-install checklist
 
 ## License
 
