@@ -1,7 +1,6 @@
 cask_args appdir: "/Applications"
 cask_args colorpickerdir: "/Library/ColorPickers"
 cask_args fontdir: "/Library/Fonts"
-cask_args screen_saverdir: "/Library/Screen Savers"
 tap "buo/cask-upgrade"
 tap "homebrew/bundle"
 tap "homebrew/cask"
