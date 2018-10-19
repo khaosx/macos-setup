@@ -6,7 +6,7 @@
 * When MAS is updated, remove temp fixes
 * Document post-install checklist
 * Include the following code into the custom installs
-**```function install_osx_software () {
++ ```function install_osx_software () {
   cd /usr/local/ && brew bundle
   brew upgrade
   open --wait -a 1Password
