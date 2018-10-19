@@ -1,5 +1,46 @@
 #!/bin/bash
 
+# Add Users
+function create_reg_users () {
+	LastID=`dscl . -list /Users UniqueID | awk '{print $2}' | sort -n | tail -1`
+	LastGID=`dscl . -list /Groups PrimaryGroupID | awk '{print $2}' | sort -n | tail -1`
+	NextID=$((LastID + 1))
+	NextGID=$((LastGID + 1))
+	sudo dscl . -create /Users/$1
+	sudo dscl . -create /Users/$1 UserShell /bin/bash
+	sudo dscl . -create /Users/$1 RealName "$2"
+	sudo dscl . -create /Users/$1 UniqueID $NextID
+	sudo dscl . -create /Users/$1 PrimaryGroupID $NextGID
+	sudo dscl . -create /Users/$1 NFSHomeDirectory /Users/$1
+	sudo dscl . -passwd /Users/$1 $1
+	sudo createhomedir -c
+	sudo cp /Volumes/Storage/UserPics/$1.jpg /Users/$1/.$1.jpg
+	sudo chown $NextID:$NextGID /Users/$1/.$1.jpg
+	sudo chmod 777 /Users/$1/.$1.jpg
+	sudo dscl . create /Users/$1 picture "/Users/$1/.$1.jpg"
+}
+
+function create_admin_users () {
+	LastID=`dscl . -list /Users UniqueID | awk '{print $2}' | sort -n | tail -1`
+	LastGID=`dscl . -list /Groups PrimaryGroupID | awk '{print $2}' | sort -n | tail -1`
+	NextID=$((LastID + 1))
+	NextGID=$((LastGID + 1))
+	sudo dscl . -create /Users/$1
+	sudo dscl . -create /Users/$1 UserShell /bin/bash
+	sudo dscl . -create /Users/$1 RealName "$2"
+	sudo dscl . -create /Users/$1 UniqueID $NextID
+	sudo dscl . -create /Users/$1 PrimaryGroupID $NextGID
+	sudo dscl . -create /Users/$1 NFSHomeDirectory /Users/$1
+	sudo dscl . -passwd /Users/$1 $1
+	sudo createhomedir -c
+	sudo cp /Volumes/Storage/UserPics/$1.jpg /Users/$1/.$1.jpg
+	sudo chown $NextID:$NextGID /Users/$1/.$1.jpg
+	sudo chmod 777 /Users/$1/.$1.jpg
+	sudo dscl . create /Users/$1 picture "/Users/$1/.$1.jpg"
+	sudo dscl . -append /Groups/admin GroupMembership $1
+	sudo pwpolicy -a kris -u $1 -setpolicy "newPasswordRequired=1"
+}
+
 # Adjust defaults
 
 ###############################################################################
@@ -42,3 +83,14 @@ sudo pmset -a lessbright 0
 
 # Screen Saver: Aerial
 defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName -string "Aerial" path -string "/Library/Screen Savers/Aerial.saver" type -int 0
+
+###############################################################################
+# Create Users                                                                #
+###############################################################################
+
+create_reg_users "caleb" "Caleb Abbott"
+create_reg_users "harper" "Harper Abbott"
+create_reg_users "shelby" "Shelby Newman"
+create_admin_users "sara" "Sara Newman"
+
+osascript -e 'tell app "loginwindow" to «event aevtrrst»'
