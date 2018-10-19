@@ -6,7 +6,7 @@
 	<string>com.khaosx.dailywork</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/Users/kris/production/scripts/daily_work.sh</string>
+		<string>/Users/kris/scripts/daily_work.sh</string>
 	</array>
 	<key>StartCalendarInterval</key>
 	<dict>
