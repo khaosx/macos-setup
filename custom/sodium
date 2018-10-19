@@ -3,40 +3,36 @@
 # Add Users
 function create_reg_users () {
 	LastID=`dscl . -list /Users UniqueID | awk '{print $2}' | sort -n | tail -1`
-	LastGID=`dscl . -list /Groups PrimaryGroupID | awk '{print $2}' | sort -n | tail -1`
 	NextID=$((LastID + 1))
-	NextGID=$((LastGID + 1))
 	sudo dscl . -create /Users/$1
 	sudo dscl . -create /Users/$1 UserShell /bin/bash
 	sudo dscl . -create /Users/$1 RealName "$2"
 	sudo dscl . -create /Users/$1 UniqueID $NextID
-	sudo dscl . -create /Users/$1 PrimaryGroupID $NextGID
+	sudo dscl . -create /Users/$1 PrimaryGroupID 20
 	sudo dscl . -create /Users/$1 NFSHomeDirectory /Users/$1
 	sudo dscl . -passwd /Users/$1 $1
-	sudo createhomedir -c
-	sudo cp /Volumes/Storage/UserPics/$1.jpg /Users/$1/.$1.jpg
-	sudo chown $NextID:$NextGID /Users/$1/.$1.jpg
-	sudo chmod 777 /Users/$1/.$1.jpg
-	sudo dscl . create /Users/$1 picture "/Users/$1/.$1.jpg"
+	sudo createhomedir -c -u $1
+	FILE=$HOME/Desktop/Sodium/ParentalControls/$1.parentalcontrols
+	if [ -f $FILE ]; then
+		echo Restoring parental controls for $1
+		sudo dscl . -mcximport /Users/$1 $HOME/Desktop/Sodium/ParentalControls/$1.parentalcontrols
+	else
+		echo Individual parental controls for $1 not available. Installing generic controls
+		sudo dscl . -mcximport /Users/$1 $HOME/Desktop/Sodium/ParentalControls/generic.parentalcontrols
+	fi
 }
 
 function create_admin_users () {
 	LastID=`dscl . -list /Users UniqueID | awk '{print $2}' | sort -n | tail -1`
-	LastGID=`dscl . -list /Groups PrimaryGroupID | awk '{print $2}' | sort -n | tail -1`
 	NextID=$((LastID + 1))
-	NextGID=$((LastGID + 1))
 	sudo dscl . -create /Users/$1
 	sudo dscl . -create /Users/$1 UserShell /bin/bash
 	sudo dscl . -create /Users/$1 RealName "$2"
 	sudo dscl . -create /Users/$1 UniqueID $NextID
-	sudo dscl . -create /Users/$1 PrimaryGroupID $NextGID
+	sudo dscl . -create /Users/$1 PrimaryGroupID 20
 	sudo dscl . -create /Users/$1 NFSHomeDirectory /Users/$1
 	sudo dscl . -passwd /Users/$1 $1
-	sudo createhomedir -c
-	sudo cp /Volumes/Storage/UserPics/$1.jpg /Users/$1/.$1.jpg
-	sudo chown $NextID:$NextGID /Users/$1/.$1.jpg
-	sudo chmod 777 /Users/$1/.$1.jpg
-	sudo dscl . create /Users/$1 picture "/Users/$1/.$1.jpg"
+	sudo createhomedir -c -u $1
 	sudo dscl . -append /Groups/admin GroupMembership $1
 	sudo pwpolicy -a kris -u $1 -setpolicy "newPasswordRequired=1"
 }
@@ -76,13 +72,6 @@ sudo pmset -a autopoweroffdelay 86400
 
 # Dim display off
 sudo pmset -a lessbright 0
-
-###############################################################################
-# Screen Saver                                                                #
-###############################################################################
-
-# Screen Saver: Aerial
-defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName -string "Aerial" path -string "/Library/Screen Savers/Aerial.saver" type -int 0
 
 ###############################################################################
 # Create Users                                                                #
