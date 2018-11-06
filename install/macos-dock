@@ -15,6 +15,7 @@ dockutil --no-restart --add "/Applications/Maps.app"
 dockutil --no-restart --add "/Applications/iTunes.app"
 dockutil --no-restart --add "/Applications/Photos.app"
 dockutil --no-restart --add "/Applications/TextWrangler.app"
+dockutil --no-restart --add "/Applications/BBEdit.app" 
 dockutil --no-restart --add "/Applications/MakeMKV.app"
 dockutil --no-restart --add "/Applications/Transmit.app"
 dockutil --no-restart --add "/Applications/Reeder.app"
@@ -44,6 +45,8 @@ elif [ "$HOST_NAME" = sodium ]; then
     dockutil --no-restart --remove "Filebot"
     dockutil --no-restart --remove "Plex Media Player"
     dockutil --no-restart --remove "Reeder"
+elif [ "$HOST_NAME" = lithium ]; then
+    dockutil --no-restart --remove "TextWrangler"
 fi
 
 killall Dock
