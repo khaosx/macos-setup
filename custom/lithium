@@ -38,8 +38,8 @@ hdiutil attach -nobrowse "$HOME/Desktop/MP3 Trimmer.dmg"
 cp -r "/Volumes/MP3 Trimmer/MP3 Trimmer.app" /Applications
 hdiutil detach "/Volumes/MP3 Trimmer"
 
-mv "$dirAppHome/*.app" /Applications
-rm "$dirAppHome/*.dmg"
+mv $dirAppHome/*.app /Applications
+rm $dirAppHome/*.dmg
 
 if [ -d "/Volumes/Storage/Lithium/backups" ]; then
 	BackupPortable="/Volumes/Storage/Lithium/backups"
