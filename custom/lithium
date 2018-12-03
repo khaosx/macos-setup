@@ -1,27 +1,34 @@
 #!/bin/bash
 
-# Install Don Melton's Video Transcoding Gem
-# https://github.com/donmelton/video_transcoding
-sudo gem install video_transcoding
-
 # Install pip for python goodness
 sudo easy_install pip
 
-#slack cleaner
-sudo pip install slack-cleaner
+###############################################################################
+# Power Options                                                               #
+###############################################################################
+
+source "$BOOTSTRAP_DIR/custom/power/power_settings_laptop.sh"
+
+###############################################################################
+# Let's take care of the apps and do some restores                            #
+###############################################################################
+
+# Make user script and dev directories
+mkdir -p $HOME/.ssh
+mkdir -p $HOME/scripts
 
 sudo mv $HOME/Desktop/archey /usr/local/bin/archey
 mv "$HOME/Desktop/inAudible.app" /Applications
 
-# Download some apps
+# Download components
 dirAppHome=$HOME/Desktop
 wget -O "$dirAppHome/Duplicate Annihilator for Photos.dmg.zip" https://brattoo.com/propaganda/downloadDap.php
 wget -O "$dirAppHome/photosSetLongitudeAndLatitude.zip" https://free.brattoo.com/apps/photosSetLongitudeAndLatitude.zip
 wget -O "$dirAppHome/photodateToFiledate.zip" https://free.brattoo.com/apps/photodateToFiledate.zip
 wget -O "$dirAppHome/MP3 Trimmer.dmg" http://deepniner.net/mp3trimmer/MP3%20Trimmer.dmg
-unzip -qq "$dirAppHome/Duplicate Annihilator for Photos.dmg.zip" -d $dirAppHome ;rm -rf $dirAppHome/__MACOSX
-unzip -qq "$dirAppHome/photosSetLongitudeAndLatitude.zip" -d $dirAppHome ;rm -rf $dirAppHome/__MACOSX
-unzip -qq "$dirAppHome/photodateToFiledate.zip" -d $dirAppHome ;rm -rf $dirAppHome/__MACOSX
+
+find $HOME/Desktop/*.zip -exec unzip -qq -d $dirAppHome -n {} \; -exec rm {} \;
+rm -rf $dirAppHome/__MACOSX
 
 hdiutil attach -nobrowse "$HOME/Desktop/Duplicate Annihilator for Photos.dmg"
 cp -r "/Volumes/Duplicate Annihilator for Photos/Duplicate Annihilator for Photos.app" /Applications
@@ -31,30 +38,17 @@ hdiutil attach -nobrowse "$HOME/Desktop/MP3 Trimmer.dmg"
 cp -r "/Volumes/MP3 Trimmer/MP3 Trimmer.app" /Applications
 hdiutil detach "/Volumes/MP3 Trimmer"
 
-mv "$dirAppHome/Photos Set longitude and latitude.app" /Applications
-mv "$dirAppHome/Photodate to Filedate.app" /Applications
-rm "$HOME/Desktop/Duplicate Annihilator for Photos.dmg"
-rm "$HOME/Desktop/MP3 Trimmer.dmg"
-rm "$dirAppHome/Duplicate Annihilator for Photos.dmg.zip"
-rm "$dirAppHome/photosSetLongitudeAndLatitude.zip"
-rm "$dirAppHome/photodateToFiledate.zip"
+mv "$dirAppHome/*.app" /Applications
+rm "$dirAppHome/*.dmg"
 
-###############################################################################
-# Power Options                                                               #
-###############################################################################
-
-source "$BOOTSTRAP_DIR/custom/power_settings_desktop.sh"
-
-###############################################################################
-# Screen Saver                                                                #
-###############################################################################
-
-# Screen Saver: Aerial
-defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName -string "Aerial" path -string "$HOME/Library/Screen Savers/Aerial.saver" type -int 0
-
-###############################################################################
-# Add launchctl jobs.                                                         #
-###############################################################################
-
-mv "$BOOTSTRAP_DIR/custom/com.khaosx.dailywork_lithium.plist" "$HOME/Library/LaunchAgents/com.khaosx.dailywork.plist"
-launchctl load ~/Library/LaunchAgents/com.khaosx.dailywork.plist
+if [ -d "/Volumes/Storage/Lithium/backups" ]; then
+	BackupPortable="/Volumes/Storage/Lithium/backups"
+	cp "$BackupPortable"/ssh/* $HOME/.ssh/
+	cp -R  "$BackupPortable"/scripts/* /Users/kris/scripts
+	rsync -r -v -t "$BackupPortable/MakeMKV" $HOME/Library/MakeMKV/
+	rsync -r -v -t "$BackupPortable/Hazel" "$HOME/Library/Application Support/"
+	cp "$BackupPortable/com.makemkv.MakeMKV.plist" "$HOME/Library/Preferences/com.makemkv.MakeMKV.plist"
+	cp "$BackupPortable/com.noodlesoft.Hazel.plist" "$HOME/Library/Preferences/com.noodlesoft.Hazel.plist"
+	cp "$BackupPortable/com.noodlesoft.HazelHelper.plist" "$HOME/Library/Preferences/com.noodlesoft.HazelHelper.plist"
+	rm -rf "$BackupPortable"
+fi

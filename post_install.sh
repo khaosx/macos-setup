@@ -174,6 +174,15 @@ if [ -f "$BOOTSTRAP_DIR/install/brewfiles/Brewfile.$HOST_NAME" ]; then
    brew bundle --global
 fi
 
+# Add launchctl jobs.
+
+if [ -f "$BOOTSTRAP_DIR/custom/plists/com.khaosx.dailywork_$HOST_NAME.plist" ]; then
+	mv "$BOOTSTRAP_DIR/custom/plists/com.khaosx.dailywork_$HOST_NAME.plist" "$HOME/Library/LaunchAgents/com.khaosx.dailywork.plist"
+else
+	mv "$BOOTSTRAP_DIR/custom/plists/com.khaosx.dailywork_generic.plist" "$HOME/Library/LaunchAgents/com.khaosx.dailywork.plist"
+fi
+launchctl load ~/Library/LaunchAgents/com.khaosx.dailywork.plist
+
 # Copy over stubborn apps
 if [ "$(ls /Volumes/Storage/Apps/all)" ]; then
    cp -R /Volumes/Storage/Apps/all/* ~/Desktop

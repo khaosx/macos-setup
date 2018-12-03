@@ -6,4 +6,4 @@
 # Power Options                                                               #
 ###############################################################################
 
-source "$BOOTSTRAP_DIR/custom/power_settings_laptop.sh"
+source "$BOOTSTRAP_DIR/custom/power/power_settings_laptop.sh"
