@@ -175,7 +175,7 @@ if [ -f "$BOOTSTRAP_DIR/install/brewfiles/Brewfile.$HOST_NAME" ]; then
 fi
 
 # Add launchctl jobs.
-
+mkdir -p "$HOME/Library/LaunchAgents"
 if [ -f "$BOOTSTRAP_DIR/custom/plists/com.khaosx.dailywork_$HOST_NAME.plist" ]; then
 	mv "$BOOTSTRAP_DIR/custom/plists/com.khaosx.dailywork_$HOST_NAME.plist" "$HOME/Library/LaunchAgents/com.khaosx.dailywork.plist"
 else
