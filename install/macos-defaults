@@ -382,7 +382,7 @@ defaults write com.apple.screensaver askForPasswordDelay -int 5
 defaults -currentHost write com.apple.screensaver moduleDict -dict moduleName -string "Shell" path -string "/System/Library/Screen Savers/Shell.saver" type -int 0
 
 # Hot corners -> bottom left -> start screen saver
-defaults write com.apple.dock "wvous-bl-corner" -int 13;
+defaults write com.apple.dock "wvous-bl-corner" -int 5;
 defaults write com.apple.dock "wvous-bl-modifier" -int 0;
 defaults write com.apple.dock "wvous-br-corner" -int 5;
 defaults write com.apple.dock "wvous-br-modifier" -int 0;
