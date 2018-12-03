@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Install Don Melton's Video Transcoding Gem
+# https://github.com/donmelton/video_transcoding
+sudo gem install video_transcoding
+
+# Install pip for python goodness
+sudo easy_install pip
+
+#slack cleaner
+sudo pip install slack-cleaner
+
+sudo mv $HOME/Desktop/archey /usr/local/bin/archey
+
+# Download components
+dirAppHome=$HOME/Desktop
+wget -O "$dirAppHome/daily_work.zip" https://gist.github.com/khaosx/7b3c8c6aff24d59c70b5ae10997d17ba/archive/86a5ec33a094dd6b5a3a1d586640b885cfebf58d.zip
+wget -O "$dirAppHome/convert_media.zip" https://gist.github.com/khaosx/c3c7fd26b4c008c5d1f2bed7d759d4e9/archive/6f2fa5b250546d253e4cf37c260820befbb8fb7b.zip
+
+find $HOME/Desktop/*.zip -exec unzip -qq -d $dirAppHome -n {} \; -exec rm {} \;
+rm -rf $dirAppHome/__MACOSX
+
+mv "$HOME/Desktop/7b3c8c6aff24d59c70b5ae10997d17ba-86a5ec33a094dd6b5a3a1d586640b885cfebf58d/daily_work_lithium.sh" "$HOME/scripts/daily_work.sh"
+rm -rf mv "$HOME/Desktop/7b3c8c6aff24d59c70b5ae10997d17ba-86a5ec33a094dd6b5a3a1d586640b885cfebf58d"
+chmod +x "$HOME/scripts/daily_work.sh"
+rm "$HOME/Desktop/Duplicate Annihilator for Photos.dmg"
+rm "$HOME/Desktop/MP3 Trimmer.dmg"
+
+
+###############################################################################
+# Power Options                                                               #
+###############################################################################
+
+source "$BOOTSTRAP_DIR/custom/power/power_settings_server.sh"
