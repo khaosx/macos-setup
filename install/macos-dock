@@ -49,6 +49,7 @@ elif [ "$HOST_NAME" = sodium ]; then
     dockutil --no-restart --remove "BBEdit"
  elif [ "$HOST_NAME" = lithium ]; then
     dockutil --no-restart --remove "TextWrangler"
+    dockutil --no-restart --add "/System/Library/CoreServices/Applications/Screen Sharing.app"
  elif [ "$HOST_NAME" = nitrogen ]; then
     dockutil --no-restart --remove "Mail"
     dockutil --no-restart --remove "Messages"

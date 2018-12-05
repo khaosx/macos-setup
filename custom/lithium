@@ -17,32 +17,50 @@ source "$BOOTSTRAP_DIR/custom/power/power_settings_laptop.sh"
 mkdir -p $HOME/.ssh
 mkdir -p $HOME/scripts
 
-sudo mv $HOME/Desktop/archey /usr/local/bin/archey
-mv "$HOME/Desktop/inAudible.app" /Applications
-
 # Download components
 dirAppHome=$HOME/Desktop
-wget -O "$dirAppHome/Duplicate Annihilator for Photos.dmg.zip" https://brattoo.com/propaganda/downloadDap.php
-wget -O "$dirAppHome/photosSetLongitudeAndLatitude.zip" https://free.brattoo.com/apps/photosSetLongitudeAndLatitude.zip
-wget -O "$dirAppHome/photodateToFiledate.zip" https://free.brattoo.com/apps/photodateToFiledate.zip
-wget -O "$dirAppHome/MP3 Trimmer.dmg" http://deepniner.net/mp3trimmer/MP3%20Trimmer.dmg
+wget --quiet -O "$dirAppHome/Duplicate Annihilator for Photos.dmg.zip" https://brattoo.com/propaganda/downloadDap.php
+wget --quiet -O "$dirAppHome/photosSetLongitudeAndLatitude.zip" https://free.brattoo.com/apps/photosSetLongitudeAndLatitude.zip
+wget --quiet -O "$dirAppHome/photodateToFiledate.zip" https://free.brattoo.com/apps/photodateToFiledate.zip
+wget --quiet -O "$dirAppHome/MP3 Trimmer.dmg" http://deepniner.net/mp3trimmer/MP3%20Trimmer.dmg
 
-find $HOME/Desktop/*.zip -exec unzip -qq -d $dirAppHome -n {} \; -exec rm {} \;
-rm -rf $dirAppHome/__MACOSX
+# Install my fork of Archey
+sudo mv $HOME/Desktop/archey /usr/local/bin/archey
 
-hdiutil attach -nobrowse "$HOME/Desktop/Duplicate Annihilator for Photos.dmg"
-cp -r "/Volumes/Duplicate Annihilator for Photos/Duplicate Annihilator for Photos.app" /Applications
-hdiutil detach "/Volumes/Duplicate Annihilator for Photos"
+# Install and cleanup 
+for f in $dirAppHome/*.zip
+do
+	unzip -qq -d $dirAppHome -n "$f"
+	rm "$f"
+	rm -rf $dirAppHome/__MACOSX
+done
 
-hdiutil attach -nobrowse "$HOME/Desktop/MP3 Trimmer.dmg"
-cp -r "/Volumes/MP3 Trimmer/MP3 Trimmer.app" /Applications
-hdiutil detach "/Volumes/MP3 Trimmer"
+for f in $dirAppHome/*.dmg
+do
+	strFilename=$(basename "$f")
+	strDMGName="${strFilename%.*}"
+	hdiutil attach -nobrowse "$f"
+	if [ -d "/Volumes/$strDMGName/$strDMGName.app" ]; then
+		cp -r "/Volumes/$strDMGName/$strDMGName.app" /Applications
+	fi
+	hdiutil detach "/Volumes/$strDMGName"
+	rm "$f"
+done
 
-mv $dirAppHome/*.app /Applications
-rm $dirAppHome/*.dmg
+for f in $dirAppHome/*.app
+do
+	mv "$f" /Applications
+done
 
-if [ -d "/Volumes/Storage/lithium/backups" ]; then
-	BackupPortable="/Volumes/Storage/lithium/backups"
+for f in $dirAppHome/*.pkg
+do
+	sudo installer -pkg "$f" -target /
+	rm "$f"
+done
+
+# Restore from storage drive
+if [ -d "/Volumes/Storage/$HOSTNAME/backups" ]; then
+	BackupPortable="/Volumes/Storage/$HOSTNAME/backups"
 	cp "$BackupPortable"/ssh/* $HOME/.ssh/
 	cp -R  "$BackupPortable"/scripts/* /Users/kris/scripts
 	rsync -r -v -t "$BackupPortable/MakeMKV" $HOME/Library/MakeMKV/
@@ -53,6 +71,6 @@ if [ -d "/Volumes/Storage/lithium/backups" ]; then
 	rm -rf "$BackupPortable"
 fi
 
-  open --wait -a 1Password
-  open --wait -a Dropbox
-  open --wait '/usr/local/Caskroom/backblaze/latest/Backblaze Installer.app'
+open --wait -a 1Password
+open --wait -a Dropbox
+open --wait '/usr/local/Caskroom/backblaze/latest/Backblaze Installer.app'

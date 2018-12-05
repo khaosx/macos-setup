@@ -10,19 +10,50 @@ sudo easy_install pip
 #slack cleaner
 sudo pip install slack-cleaner
 
+# Install my fork of Archey
 sudo mv $HOME/Desktop/archey /usr/local/bin/archey
 
 # Download components
 dirAppHome=$HOME/Desktop
-wget -O "$dirAppHome/FileBot_4.8.2.pkg" https://get.filebot.net/filebot/FileBot_4.8.2/FileBot_4.8.2.pkg
-find $HOME/Desktop/*.zip -exec unzip -qq -d $dirAppHome -n {} \; -exec rm {} \;
-rm -rf $dirAppHome/__MACOSX
+wget --quiet -O "$dirAppHome/FileBot_4.8.2.pkg" https://get.filebot.net/filebot/FileBot_4.8.2/FileBot_4.8.2.pkg
 
-mv $dirAppHome/*.app /Applications
-rm $dirAppHome/*.dmg
+# Install my fork of Archey
+sudo mv $HOME/Desktop/archey /usr/local/bin/archey
 
-if [ -d "/Volumes/Storage/nitrogen/backups" ]; then
-	BackupPortable="/Volumes/Storage/nitrogen/backups"
+# Install and cleanup 
+for f in $dirAppHome/*.zip
+do
+	unzip -qq -d $dirAppHome -n "$f"
+	rm "$f"
+	rm -rf $dirAppHome/__MACOSX
+done
+
+for f in $dirAppHome/*.dmg
+do
+	strFilename=$(basename "$f")
+	strDMGName="${strFilename%.*}"
+	hdiutil attach -nobrowse "$f"
+	if [ -d "/Volumes/$strDMGName/$strDMGName.app" ]; then
+		cp -r "/Volumes/$strDMGName/$strDMGName.app" /Applications
+	fi
+	hdiutil detach "/Volumes/$strDMGName"
+	rm "$f"
+done
+
+for f in $dirAppHome/*.app
+do
+	mv "$f" /Applications
+done
+
+for f in $dirAppHome/*.pkg
+do
+	sudo installer -pkg "$f" -target /
+	rm "$f"
+done
+
+# Restore from storage drive
+if [ -d "/Volumes/Storage/$HOSTNAME/backups" ]; then
+	BackupPortable="/Volumes/Storage/$HOSTNAME/backups"
 	cp "$BackupPortable"/ssh/* $HOME/.ssh/
 	cp -R  "$BackupPortable"/scripts/* /Users/kris/scripts
 	rsync -r -v -t "$BackupPortable/MakeMKV" $HOME/Library/MakeMKV/
@@ -32,13 +63,6 @@ if [ -d "/Volumes/Storage/nitrogen/backups" ]; then
 	cp "$BackupPortable/com.noodlesoft.HazelHelper.plist" "$HOME/Library/Preferences/com.noodlesoft.HazelHelper.plist"
 	rm -rf "$BackupPortable"
 fi
-
-sudo installer -pkg "$dirAppHome/FileBot_4.8.2.pkg" -target /
-mv "$HOME/Desktop/7b3c8c6aff24d59c70b5ae10997d17ba-86a5ec33a094dd6b5a3a1d586640b885cfebf58d/daily_work_lithium.sh" "$HOME/scripts/daily_work.sh"
-rm -rf mv "$HOME/Desktop/7b3c8c6aff24d59c70b5ae10997d17ba-86a5ec33a094dd6b5a3a1d586640b885cfebf58d"
-chmod +x "$HOME/scripts/daily_work.sh"
-rm "$HOME/Desktop/Duplicate Annihilator for Photos.dmg"
-rm "$HOME/Desktop/MP3 Trimmer.dmg"
 
 # Turn on screen sharing and remote management
 sudo defaults write /var/db/launchd.db/com.apple.launchd/overrides.plist com.apple.screensharing -dict Disabled -bool false
