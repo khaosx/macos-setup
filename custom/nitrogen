@@ -14,17 +14,37 @@ sudo mv $HOME/Desktop/archey /usr/local/bin/archey
 
 # Download components
 dirAppHome=$HOME/Desktop
-wget -O "$dirAppHome/daily_work.zip" https://gist.github.com/khaosx/7b3c8c6aff24d59c70b5ae10997d17ba/archive/86a5ec33a094dd6b5a3a1d586640b885cfebf58d.zip
-wget -O "$dirAppHome/convert_media.zip" https://gist.github.com/khaosx/c3c7fd26b4c008c5d1f2bed7d759d4e9/archive/6f2fa5b250546d253e4cf37c260820befbb8fb7b.zip
-
+wget -O "$dirAppHome/FileBot_4.8.2.pkg" https://get.filebot.net/filebot/FileBot_4.8.2/FileBot_4.8.2.pkg
 find $HOME/Desktop/*.zip -exec unzip -qq -d $dirAppHome -n {} \; -exec rm {} \;
 rm -rf $dirAppHome/__MACOSX
 
+mv $dirAppHome/*.app /Applications
+rm $dirAppHome/*.dmg
+
+if [ -d "/Volumes/Storage/nitrogen/backups" ]; then
+	BackupPortable="/Volumes/Storage/nitrogen/backups"
+	cp "$BackupPortable"/ssh/* $HOME/.ssh/
+	cp -R  "$BackupPortable"/scripts/* /Users/kris/scripts
+	rsync -r -v -t "$BackupPortable/MakeMKV" $HOME/Library/MakeMKV/
+	rsync -r -v -t "$BackupPortable/Hazel" "$HOME/Library/Application Support/"
+	cp "$BackupPortable/com.makemkv.MakeMKV.plist" "$HOME/Library/Preferences/com.makemkv.MakeMKV.plist"
+	cp "$BackupPortable/com.noodlesoft.Hazel.plist" "$HOME/Library/Preferences/com.noodlesoft.Hazel.plist"
+	cp "$BackupPortable/com.noodlesoft.HazelHelper.plist" "$HOME/Library/Preferences/com.noodlesoft.HazelHelper.plist"
+	rm -rf "$BackupPortable"
+fi
+
+sudo installer -pkg "$dirAppHome/FileBot_4.8.2.pkg" -target /
 mv "$HOME/Desktop/7b3c8c6aff24d59c70b5ae10997d17ba-86a5ec33a094dd6b5a3a1d586640b885cfebf58d/daily_work_lithium.sh" "$HOME/scripts/daily_work.sh"
 rm -rf mv "$HOME/Desktop/7b3c8c6aff24d59c70b5ae10997d17ba-86a5ec33a094dd6b5a3a1d586640b885cfebf58d"
 chmod +x "$HOME/scripts/daily_work.sh"
 rm "$HOME/Desktop/Duplicate Annihilator for Photos.dmg"
 rm "$HOME/Desktop/MP3 Trimmer.dmg"
+
+# Turn on screen sharing and remote management
+sudo defaults write /var/db/launchd.db/com.apple.launchd/overrides.plist com.apple.screensharing -dict Disabled -bool false
+sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.screensharing.plist
+sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -specifiedUsers -privs -all -clientopts -setmenuextra -menuextra yes
+sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -users kris -access -on -privs -all
 
 
 ###############################################################################

@@ -41,8 +41,8 @@ hdiutil detach "/Volumes/MP3 Trimmer"
 mv $dirAppHome/*.app /Applications
 rm $dirAppHome/*.dmg
 
-if [ -d "/Volumes/Storage/Lithium/backups" ]; then
-	BackupPortable="/Volumes/Storage/Lithium/backups"
+if [ -d "/Volumes/Storage/lithium/backups" ]; then
+	BackupPortable="/Volumes/Storage/lithium/backups"
 	cp "$BackupPortable"/ssh/* $HOME/.ssh/
 	cp -R  "$BackupPortable"/scripts/* /Users/kris/scripts
 	rsync -r -v -t "$BackupPortable/MakeMKV" $HOME/Library/MakeMKV/
@@ -52,3 +52,7 @@ if [ -d "/Volumes/Storage/Lithium/backups" ]; then
 	cp "$BackupPortable/com.noodlesoft.HazelHelper.plist" "$HOME/Library/Preferences/com.noodlesoft.HazelHelper.plist"
 	rm -rf "$BackupPortable"
 fi
+
+  open --wait -a 1Password
+  open --wait -a Dropbox
+  open --wait '/usr/local/Caskroom/backblaze/latest/Backblaze Installer.app'
