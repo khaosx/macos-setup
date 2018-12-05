@@ -3,7 +3,7 @@
 * ~~Fix screensaver in custom install~~
 * ~~Fix homepage in Safari~~
 * ~~Create plist and load via launchctl~~
-* When MAS is updated, remove temp fixes
+* ~~When MAS is updated, remove temp fixes~~
 * Document post-install checklist
 * Include the following code into the custom installs
 + ```function install_osx_software () {
