@@ -33,10 +33,11 @@ dockutil --no-restart --add "~/Downloads" --view fan --section others --sort dat
 
 if [ "$HOST_NAME" = magnesium ]; then
     dockutil --no-restart --remove "Google Chrome"
-    dockutil --no-restart --remove "ScanSnap Manager"
+    dockutil --no-restart --remoelifve "ScanSnap Manager"
     dockutil --no-restart --remove "Transmit"
     dockutil --no-restart --remove "Sonos"
     dockutil --no-restart --remove "MakeMKV"
+    dockutil --no-restart --remove "BBEdit"
 elif [ "$HOST_NAME" = sodium ]; then
     dockutil --no-restart --remove "Google Chrome"
     dockutil --no-restart --remove "ScanSnap Manager"
@@ -45,8 +46,27 @@ elif [ "$HOST_NAME" = sodium ]; then
     dockutil --no-restart --remove "Filebot"
     dockutil --no-restart --remove "Plex Media Player"
     dockutil --no-restart --remove "Reeder"
-elif [ "$HOST_NAME" = lithium ]; then
+    dockutil --no-restart --remove "BBEdit"
+ elif [ "$HOST_NAME" = lithium ]; then
     dockutil --no-restart --remove "TextWrangler"
+ elif [ "$HOST_NAME" = nitrogen ]; then
+    dockutil --no-restart --remove "Mail"
+    dockutil --no-restart --remove "Messages"
+    dockutil --no-restart --remove "News"
+    dockutil --no-restart --remove "Calendar"
+    dockutil --no-restart --remove "Contacts"
+    dockutil --no-restart --remove "Reminders"
+    dockutil --no-restart --remove "Maps"
+    dockutil --no-restart --remove "iTunes"
+    dockutil --no-restart --remove "Photos"
+    dockutil --no-restart --remove "BBEdit"
+    dockutil --no-restart --remove "Plex Media Player"
+    dockutil --no-restart --remove "Reeder"
+    dockutil --no-restart --remove "ScanSnap Manager"
+    dockutil --no-restart --remove "Numbers"
+    dockutil --no-restart --remove "Pages"
+    dockutil --no-restart --remove "Paprika Recipe Manager 3"
+    dockutil --no-restart --remove "Sonos"
 fi
 
 killall Dock
