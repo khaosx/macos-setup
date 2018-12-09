@@ -243,6 +243,10 @@ post_echo "Done!"
 
 post_echo "Step 7: Cleaning up..."
 
+if $(which slack >/dev/null); then
+    slack init -tk xoxb-104698693377-458499468674-3W42qHWQUlIXQtNvj2lIek8z
+fi
+
 rm -rf "$BOOTSTRAP_DIR"
 
 post_echo "Done!"
