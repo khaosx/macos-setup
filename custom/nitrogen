@@ -64,6 +64,10 @@ if [ -d "/Volumes/Storage/$HOSTNAME/backups" ]; then
 	rm -rf "$BackupPortable"
 fi
 
+# Add convert_media plist to launchd
+mv "$BOOTSTRAP_DIR/custom/plists/com.khaosx.convert_media.plist" "$HOME/Library/LaunchAgents/com.khaosx.convert_media.plist"
+launchctl load "$HOME/Library/LaunchAgents/com.khaosx.convert_media.plist"
+
 # Turn on screen sharing and remote management
 sudo defaults write /var/db/launchd.db/com.apple.launchd/overrides.plist com.apple.screensharing -dict Disabled -bool false
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.screensharing.plist
