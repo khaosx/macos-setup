@@ -8,7 +8,14 @@
     <array>
         <string>/Users/kris/scripts/convert_media.sh</string>
     </array>
+
     <key>StartInterval</key>
     <integer>900</integer>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>PATH</key>
+      <string><![CDATA[/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin]]></string>
+    </dict>
 </dict>
 </plist>

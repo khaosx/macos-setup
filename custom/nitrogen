@@ -16,6 +16,9 @@ sudo mv $HOME/Desktop/archey /usr/local/bin/archey
 # Download components
 dirAppHome=$HOME/Desktop
 wget --quiet -O "$dirAppHome/FileBot_4.8.2.pkg" https://get.filebot.net/filebot/FileBot_4.8.2/FileBot_4.8.2.pkg
+wget --quiet -O "$dirAppHome/mkvtools3.7.1.zip" http://www.emmgunn.com/downloads/mkvtools3.7.1.zip
+wget --quiet -O "$dirAppHome/mp4tools3.7.1.zip" http://www.emmgunn.com/downloads/mp4tools3.7.1.zip
+wget --quiet -O "$dirAppHome/subtools1.0.1.zip" http://www.emmgunn.com/downloads/subtools1.0.1.zip
 
 # Install my fork of Archey
 sudo mv $HOME/Desktop/archey /usr/local/bin/archey
@@ -23,9 +26,15 @@ sudo mv $HOME/Desktop/archey /usr/local/bin/archey
 # Install and cleanup 
 for f in $dirAppHome/*.zip
 do
+	strFilename=$(basename "$f")
+	strZIPName="${strFilename%.*}"
 	unzip -qq -d $dirAppHome -n "$f"
 	rm "$f"
 	rm -rf $dirAppHome/__MACOSX
+	if [ -d "$dirAppHome/$strZIPName" ]; then
+		mv "$dirAppHome/$strZIPName/"*.app $dirAppHome/
+		rm -r "$dirAppHome/$strZIPName"
+	fi
 done
 
 for f in $dirAppHome/*.dmg
@@ -33,7 +42,7 @@ do
 	strFilename=$(basename "$f")
 	strDMGName="${strFilename%.*}"
 	hdiutil attach -nobrowse "$f"
-	if [ -d "/Volumes/$strDMGName/$strDMGName.app" ]; then
+	if [ -d "/Volumes/$strDMGName.app" ]; then
 		cp -r "/Volumes/$strDMGName/$strDMGName.app" /Applications
 	fi
 	hdiutil detach "/Volumes/$strDMGName"
