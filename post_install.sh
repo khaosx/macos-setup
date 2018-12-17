@@ -195,6 +195,10 @@ if [ "$(ls $HOME/temp_software/OSX/Apps/$HOST_NAME)" ]; then
    cp -R $HOME/temp_software/OSX/Apps/$HOST_NAME/* ~/Desktop
 fi
 
+if $(which slack >/dev/null); then
+    source "$HOME/Desktop/slack_init.sh"
+fi
+
 umount $HOME/temp_software
 rm -rf $HOME/temp_software
 
@@ -248,10 +252,6 @@ post_echo "Done!"
 ################################################################################
 
 post_echo "Step 7: Cleaning up..."
-
-if $(which slack >/dev/null); then
-    slack init -tk xoxb-104698693377-458499468674-3W42qHWQUlIXQtNvj2lIek8z
-fi
 
 rm -rf "$BOOTSTRAP_DIR"
 
