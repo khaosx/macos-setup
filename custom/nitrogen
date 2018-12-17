@@ -15,7 +15,7 @@ sudo mv $HOME/Desktop/archey /usr/local/bin/archey
 
 # Download components
 dirAppHome=$HOME/Desktop
-wget --quiet -O "$dirAppHome/FileBot_4.8.2.pkg" https://get.filebot.net/filebot/FileBot_4.8.2/FileBot_4.8.2.pkg
+wget --quiet -O "$dirAppHome/FileBot_4.8.2.pkg" https://get.filebot.net/filebot/FileBot_4.8.5/FileBot_4.8.5.pkg
 wget --quiet -O "$dirAppHome/mkvtools3.7.1.zip" http://www.emmgunn.com/downloads/mkvtools3.7.1.zip
 wget --quiet -O "$dirAppHome/mp4tools3.7.1.zip" http://www.emmgunn.com/downloads/mp4tools3.7.1.zip
 wget --quiet -O "$dirAppHome/subtools1.0.1.zip" http://www.emmgunn.com/downloads/subtools1.0.1.zip
