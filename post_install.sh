@@ -184,13 +184,19 @@ fi
 launchctl load ~/Library/LaunchAgents/com.khaosx.dailywork.plist
 
 # Copy over stubborn apps
-if [ "$(ls /Volumes/Storage/Apps/all)" ]; then
-   cp -R /Volumes/Storage/Apps/all/* ~/Desktop
+mkdir $HOME/temp_software
+mount_smbfs -N //guest@carbon/Software $HOME/temp_software
+
+if [ "$(ls $HOME/temp_software/OSX/Apps/all)" ]; then
+   cp -R $HOME/temp_software/OSX/Apps/all/* ~/Desktop
 fi
 
-if [ "$(ls /Volumes/Storage/Apps/$HOST_NAME)" ]; then
-   cp -R /Volumes/Storage/Apps/$HOST_NAME/* ~/Desktop
+if [ "$(ls $HOME/temp_software/OSX/Apps/$HOST_NAME)" ]; then
+   cp -R $HOME/temp_software/OSX/Apps/$HOST_NAME/* ~/Desktop
 fi
+
+umount $HOME/temp_software
+rm -rf $HOME/temp_software
 
 if [ -f "$BOOTSTRAP_DIR/custom/$HOST_NAME" ]; then
    source "$BOOTSTRAP_DIR/custom/$HOST_NAME"
