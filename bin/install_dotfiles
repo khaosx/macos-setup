@@ -1,0 +1,12 @@
+DOTFILES_DIR=$HOME/dotfiles
+
+files=(
+"gitconfig"
+"gitignore"
+"gitmessage"
+"bash_profile"
+)
+
+for file in "${files[@]}"; do
+  ln -nfs "$DOTFILES_DIR"/"$file" "$HOME"/."$file"
+done

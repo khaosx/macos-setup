@@ -1,0 +1,21 @@
+#! /usr/bin/env zsh
+
+printf "################################################################################\\n"
+printf "Stage 5 - Installing launchctl jobs\\n"
+printf "################################################################################\\n\\n"
+
+
+mkdir -p "$HOME/Library/LaunchAgents"
+if [ -f "$BOOTSTRAP_CUSTOM/com.khaosx.dailywork.plist" ]; then
+	mv "$BOOTSTRAP_CUSTOM/com.khaosx.dailywork.plist" "$HOME/Library/LaunchAgents/com.khaosx.dailywork.plist"
+	printf "Found system specific daily work job - configuring."
+else
+	mv "$BOOTSTRAP_DIR/lib/com.khaosx.dailywork_generic.plist" "$HOME/Library/LaunchAgents/com.khaosx.dailywork.plist"
+	printf "No system specific daily work job found - configuring generic daemon."
+fi
+launchctl load ~/Library/LaunchAgents/com.khaosx.dailywork.plist
+
+
+printf "################################################################################\\n"
+printf "Stage 5 complete\\n"
+printf "################################################################################\\n"

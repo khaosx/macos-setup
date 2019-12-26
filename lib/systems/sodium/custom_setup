@@ -1,0 +1,110 @@
+#!/bin/bash
+
+# Turn on screen sharing and remote management
+sudo defaults write /var/db/launchd.db/com.apple.launchd/overrides.plist com.apple.screensharing -dict Disabled -bool false
+sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.screensharing.plist
+sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -specifiedUsers -privs -all -clientopts -setmenuextra -menuextra yes
+sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -configure -users kris -access -on -privs -all
+
+# Install my fork of Archey
+sudo mv $HOME/Desktop/archey /usr/local/bin/archey
+
+# Install and cleanup 
+for f in $dirAppHome/*.zip
+do
+	unzip -qq -d $dirAppHome -n "$f"
+	rm "$f"
+	rm -rf $dirAppHome/__MACOSX
+done
+
+for f in $dirAppHome/*.dmg
+do
+	strFilename=$(basename "$f")
+	strDMGName="${strFilename%.*}"
+	hdiutil attach -nobrowse "$f"
+	if [ -d "/Volumes/$strDMGName/$strDMGName.app" ]; then
+		cp -r "/Volumes/$strDMGName/$strDMGName.app" /Applications
+	fi
+	hdiutil detach "/Volumes/$strDMGName"
+	rm "$f"
+done
+
+for f in $dirAppHome/*.app
+do
+	mv "$f" /Applications
+done
+
+for f in $dirAppHome/*.pkg
+do
+	sudo installer -pkg "$f" -target /
+	rm "$f"
+done
+
+# Restore from storage drive
+if [ -d "/Volumes/Storage/$HOSTNAME/backups" ]; then
+	BackupPortable="/Volumes/Storage/$HOSTNAME/backups"
+	cp "$BackupPortable"/ssh/* $HOME/.ssh/
+	cp -R  "$BackupPortable"/scripts/* /Users/kris/scripts
+	rsync -r -v -t "$BackupPortable/MakeMKV" $HOME/Library/MakeMKV/
+	rsync -r -v -t "$BackupPortable/Hazel" "$HOME/Library/Application Support/"
+	cp "$BackupPortable/com.makemkv.MakeMKV.plist" "$HOME/Library/Preferences/com.makemkv.MakeMKV.plist"
+	cp "$BackupPortable/com.noodlesoft.Hazel.plist" "$HOME/Library/Preferences/com.noodlesoft.Hazel.plist"
+	cp "$BackupPortable/com.noodlesoft.HazelHelper.plist" "$HOME/Library/Preferences/com.noodlesoft.HazelHelper.plist"
+	rm -rf "$BackupPortable"
+fi
+
+# Add Users
+function create_reg_users () {
+	LastID=`dscl . -list /Users UniqueID | awk '{print $2}' | sort -n | tail -1`
+	NextID=$((LastID + 1))
+	sudo dscl . -create /Users/$1
+	sudo dscl . -create /Users/$1 UserShell /bin/bash
+	sudo dscl . -create /Users/$1 RealName "$2"
+	sudo dscl . -create /Users/$1 UniqueID $NextID
+	sudo dscl . -create /Users/$1 PrimaryGroupID 20
+	sudo dscl . -create /Users/$1 NFSHomeDirectory /Users/$1
+	sudo dscl . -passwd /Users/$1 $1
+	sudo createhomedir -c -u $1
+	FILE=$HOME/Desktop/Sodium/ParentalControls/$1.parentalcontrols
+	if [ -f $FILE ]; then
+		echo Restoring parental controls for $1
+		sudo dscl . -mcximport /Users/$1 $HOME/Desktop/Sodium/ParentalControls/$1.parentalcontrols
+	else
+		echo Individual parental controls for $1 not available. Installing generic controls
+		sudo dscl . -mcximport /Users/$1 $HOME/Desktop/Sodium/ParentalControls/generic.parentalcontrols
+	fi
+}
+
+function create_admin_users () {
+	LastID=`dscl . -list /Users UniqueID | awk '{print $2}' | sort -n | tail -1`
+	NextID=$((LastID + 1))
+	sudo dscl . -create /Users/$1
+	sudo dscl . -create /Users/$1 UserShell /bin/bash
+	sudo dscl . -create /Users/$1 RealName "$2"
+	sudo dscl . -create /Users/$1 UniqueID $NextID
+	sudo dscl . -create /Users/$1 PrimaryGroupID 20
+	sudo dscl . -create /Users/$1 NFSHomeDirectory /Users/$1
+	sudo dscl . -passwd /Users/$1 $1
+	sudo createhomedir -c -u $1
+	sudo dscl . -append /Groups/admin GroupMembership $1
+	sudo pwpolicy -a kris -u $1 -setpolicy "newPasswordRequired=1"
+}
+
+# Adjust defaults
+
+###############################################################################
+# Power Options                                                               #
+###############################################################################
+
+source "$BOOTSTRAP_DIR/custom/power_settings_desktop.sh"
+
+###############################################################################
+# Create Users                                                                #
+###############################################################################
+
+create_reg_users "caleb" "Caleb Abbott"
+create_reg_users "harper" "Harper Abbott"
+create_reg_users "shelby" "Shelby Newman"
+create_admin_users "sara" "Sara Newman"
+
+osascript -e 'tell app "loginwindow" to «event aevtrrst»'

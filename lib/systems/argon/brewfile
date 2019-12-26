@@ -1,0 +1,73 @@
+cask_args appdir: "/Applications"
+cask_args colorpickerdir: "/Library/ColorPickers"
+cask_args fontdir: "/Library/Fonts"
+
+tap "homebrew/cask"
+tap "homebrew/bundle"
+tap "homebrew/cask-drivers"
+tap "buo/cask-upgrade"
+tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
+tap "homebrew/core"
+tap "homebrew/services"
+tap "rockymadden/rockymadden"
+
+brew "rockymadden/rockymadden/slack-cli"
+brew "dockutil"
+brew "mas"
+brew "mpv"
+brew "wget"
+brew "ansible"
+brew "archey", args: ['HEAD']
+
+cask "appzapper"
+cask "backblaze"
+cask "balenaetcher"
+cask "bbedit"
+cask "blueharvest"
+cask "db-browser-for-sqlite"
+cask "drivedx"
+cask "downie"
+cask "dropbox"
+cask "filebot"
+cask "firefox"
+cask "flash-npapi"
+cask "fujitsu-scansnap-home"
+cask "hazel"
+cask "java"
+cask "launchcontrol"
+cask "mkvtools"
+cask "subtools"
+cask "mp4tools"
+cask "musicbrainz-picard"
+cask "neofinder"
+cask "plex-media-player"
+cask "sony-ps4-remote-play"
+cask "slack"
+cask "sonos"
+cask "soundsource"
+cask "steam"
+cask "transmit"
+cask "vlc"
+cask "vmware-fusion"
+
+mas "1Password 7", id: 1333542190
+mas "Apple Configurator 2", id: 1037126344 
+mas "AudioBookBinder", id: 413969927
+mas "AutoMounter", id: 1160435653
+mas "Blackmagic Disk Speed Test", id: 425264550
+mas "Disk Speed Test", id: 425264550
+mas "DxOOpticsProForPhotos", id: 1056077392
+mas "iMovie", id: 408981434
+mas "Keynote", id: 409183694
+mas "Keka", id: 470158793
+mas "Magnet", id: 441258766
+mas "MediaInfo", id: 510620098
+mas "Microsoft Remote Desktop", id: 1295203466
+mas "Music Tag Edit", id: 999242964
+mas "Name Mangler 3", id: 603637384
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "Paprika Recipe Manager 3", id: 1303222628
+mas "Pixelmator", id: 407963104
+mas "Reeder", id: 1449412482
