@@ -9,179 +9,108 @@
 # Feel free. Licensed under the "Good Luck With That" public license.
 ################################################################################
 
-
-# Make the echo pretty
-post_echo() {
-  local fmt="$1"; shift
-
-  # shellcheck disable=SC2059
-  printf "\\n[post-install] $fmt\\n" "$@"
-}
-
-function set_system_name () {
-	echo "Setting computer name set to $COMPUTER_NAME"
-	sudo scutil --set ComputerName $COMPUTER_NAME
-	sudo scutil --set HostName $COMPUTER_NAME
-	sudo scutil --set LocalHostName $COMPUTER_NAME
-	sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $COMPUTER_NAME
-}
-
-################################################################################
-# VARIABLE DECLARATIONS
-################################################################################
-
-osname=$(uname)
-
-export BOOTSTRAP_REPO_URL="https://github.com/khaosx/macos-setup.git"
-export BOOTSTRAP_DIR=$HOME/macos-setup
-export DOTFILES_DIR=$HOME/macos-setup/dotfiles
-DEFAULT_COMPUTER_NAME="Lithium"
-DEFAULT_TIME_ZONE="America/New_York"
-
-
-################################################################################
 # Make sure we're on a Mac before continuing
-################################################################################
-
-if [ "$osname" == "Linux" ]; then
-  post_echo "Oops, looks like you're on a Linux machine. Please have a look at
-  this Linux Bootstrap script: https://github.com/joshukraine/linux-bootstrap"
-  exit 1
-elif [ "$osname" != "Darwin" ]; then
-  post_echo "Oops, it looks like you're using a non-UNIX system. This script
-only supports MacOS. Exiting..."
+if [ $(uname) != "Darwin" ]; then
+  printf "Oops, it looks like you're using a non-MacOS system. This script only supports MacOS. Exiting..."
   exit 1
 fi
 
-################################################################################
-# Authenticate
-################################################################################
-
+# Authenticate via sudo and update existing `sudo` time stamp until finished
 sudo -v
-
-# Keep-alive: update existing `sudo` time stamp until bootstrap has finished
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-
-################################################################################
-# Welcome and setup
-################################################################################
+# Let's get started
+export BOOTSTRAP_REPO_URL="https://github.com/khaosx/macos-setup.git"
+export BOOTSTRAP_DIR=$HOME/macos-setup
 clear
-echo
-echo "*************************************************************************"
-echo "*******                                                           *******"
-echo "*******                 Post Install MacOS Config                 *******"
-echo "*******                                                           *******"
-echo "*************************************************************************"
-echo
+printf "*************************************************************************\\n"
+printf "*******                                                           *******\\n"
+printf "*******                 Post Install MacOS Config                 *******\\n"
+printf "*******                                                           *******\\n"
+printf "*************************************************************************\\n\\n"
 
 printf "Before we get started, let's get some info about your setup.\\n"
 
-printf "\\nBootstrap script will be cloned from:
-==> %s.\\n\\n" "$BOOTSTRAP_REPO_URL"
-
-printf "\\nEnter a name for your Mac. (Leave blank for default: %s)\\n" "$DEFAULT_COMPUTER_NAME"
-read -r -p "> " COMPUTER_NAME
+# Get system name
+export DEFAULT_COMPUTER_NAME="Lithium"
+printf "Enter a name for your Mac. (Leave blank for default: $DEFAULT_COMPUTER_NAME)\\n"
+read COMPUTER_NAME
 export COMPUTER_NAME=${COMPUTER_NAME:-$DEFAULT_COMPUTER_NAME}
+export dirAppHome=$HOME/AppTemp
+
 # I want all hostnames to be the lowercase version of the computer name
 HOST_NAME=$(echo ${COMPUTER_NAME} | tr '[:upper:]' '[:lower:]')
-export HOST_NAME=${HOST_NAME:-$DEFAULT_HOST_NAME}
+export HOST_NAME=${HOST_NAME}
 
-printf "\\nEnter your desired time zone.
-To view available options run \`sudo systemsetup -listtimezones\`
-(Leave blank for default: %s)\\n" "$DEFAULT_TIME_ZONE"
-read -r -p "> " TIME_ZONE
+# Enabling location services
+
+sudo /usr/bin/defaults write /var/db/locationd/Library/Preferences/ByHost/com.apple.locationd LocationServicesEnabled -int 1
+uuid=$(/usr/sbin/system_profiler SPHardwareDataType | grep "Hardware UUID" | cut -c22-57)
+sudo /usr/bin/defaults write /var/db/locationd/Library/Preferences/ByHost/com.apple.locationd.$uuid LocationServicesEnabled -int 1
+
+# Configure automatic timezone
+
+sudo /usr/bin/defaults write /Library/Preferences/com.apple.timezone.auto Active -bool YES
+sudo /usr/bin/defaults write /private/var/db/timed/Library/Preferences/com.apple.timed.plist TMAutomaticTimeOnlyEnabled -bool YES
+sudo /usr/bin/defaults write /private/var/db/timed/Library/Preferences/com.apple.timed.plist TMAutomaticTimeZoneEnabled -bool YES
+
+sudo /usr/sbin/systemsetup -setusingnetworktime on
+sudo /usr/sbin/systemsetup -gettimezone
+sudo /usr/sbin/systemsetup -getnetworktimeserver
+
+# Get time zone
+export DEFAULT_TIME_ZONE="America/New_York" 
+#printf "Enter your desired time zone.\\n"
+#printf "To view available options run \`sudo systemsetup -listtimezones\`\\n"
+#printf "(Leave blank for default: $DEFAULT_TIME_ZONE)\\n" 
+#read TIME_ZONE
 export TIME_ZONE=${TIME_ZONE:-$DEFAULT_TIME_ZONE}
+#sudo /usr/sbin/systemsetup -setusingnetworktime on
 
-printf "\\nLooks good. Here's what we've got so far.\\n"
-printf "Computer name:    ==> [%s]\\n" "$COMPUTER_NAME"
-printf "Host name:        ==> [%s]\\n" "$HOST_NAME"
-printf "Time zone:        ==> [%s]\\n" "$TIME_ZONE"
-
+printf "Looks good. Here's what we've got so far.\\n"
+printf "Bootstrap script: ==> $BOOTSTRAP_REPO_URL\\n"
+printf "Bootstrap dir:    ==> $BOOTSTRAP_DIR\\n"
+printf "Computer name:    ==> $COMPUTER_NAME\\n"
+printf "Host name:        ==> $HOST_NAME\\n"
+printf "Time zone:        ==> $TIME_ZONE\\n"
+printf "Continue? (y/n)\\n"
+read CONFIRM
 echo
-read -p "Continue? (y/n) " -n 1 -r
-echo
-if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
-  echo "Exiting..."
+if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
+  printf "Exiting per user choice\\n"
   exit 1
 fi
 
-################################################################################
-# 1. Install HomeBrew (we do this now to get the xcode CLI tools installed
-################################################################################
-
-post_echo "Step 1: Installing XCode CLI and setting up the Homebrew environment"
-
-xcode-select --install
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew analytics off
-brew update
-brew doctor
-brew tap "caskroom/cask"
-brew tap "homebrew/bundle"
-brew tap "caskroom/drivers"
-brew install mas
-
-# Temp workaround for MAS sign-in issue
-curl -L -o ~/Downloads/mas-cli.zip https://github.com/mas-cli/mas/releases/download/v1.4.2/mas-cli.zip
-unzip ~/Downloads/mas-cli.zip -d ~/Downloads
-mv /usr/local/bin/mas /usr/local/bin/mas_1.4.1
-mv ~/Downloads/mas /usr/local/bin/mas
-rm ~/Downloads/mas-cli.zip
-
-post_echo "Done!"
-
-################################################################################
-# 2. Clone repo
-################################################################################
-
-post_echo "Step 2: Cloning macos-setup repo..."
-
+printf "Cloning github repo\\n"
 git clone "$BOOTSTRAP_REPO_URL" "$BOOTSTRAP_DIR"
 
-post_echo "Done!"
+printf "Applying basic system info and installing HomeBrew.\\n"
 
-
-################################################################################
-# 3. Do some fundamental things for any system. Specific configs happen later..
-################################################################################
-
-post_echo "Step 3: Setting macOS preferences..."
-
+printf "Setting system label and name\\n"
 sudo scutil --set ComputerName $COMPUTER_NAME
 sudo scutil --set HostName $HOST_NAME
 sudo scutil --set LocalHostName $HOST_NAME
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $HOST_NAME
 
-# Set the timezone; see `systemsetup -listtimezones` for other values
-systemsetup -settimezone "$TIME_ZONE" > /dev/null
+#printf "Setting system time zone\\n"
+#sudo systemsetup -settimezone "$TIME_ZONE" > /dev/null
 
-# shellcheck source=/dev/null
-source "$BOOTSTRAP_DIR/install/macos-defaults"
+printf "Installing HomeBrew\\n"
+echo | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"  > /dev/null
 
-post_echo "Done!"
+printf "Setting up HomeBrew environment\\n"
+brew analytics off
+brew doctor
 
+printf "Applying macOS defaults\\n"
+source "$BOOTSTRAP_DIR/bin/apply_macos_defaults"
 
-################################################################################
-# 4. Remember when I said "Specific configs happen later.."? It's later.
-################################################################################
-
-post_echo "Step 4: Installing customizations based on machine name..."
-
-if [ -f "$BOOTSTRAP_DIR/install/brewfiles/Brewfile.$HOST_NAME" ]; then
-   cp "$BOOTSTRAP_DIR/install/brewfiles/Brewfile.$HOST_NAME" $HOME/.Brewfile
-   brew doctor
+printf "Installing taps, formulas, casks, and MAS apps\\n"
+export BOOTSTRAP_CUSTOM=$BOOTSTRAP_DIR/lib/systems/$HOST_NAME
+if [ -f "$BOOTSTRAP_CUSTOM/brewfile" ]; then
+   cp "$BOOTSTRAP_CUSTOM/brewfile" $HOME/.Brewfile
    brew bundle --global
 fi
-
-# Add launchctl jobs.
-mkdir -p "$HOME/Library/LaunchAgents"
-if [ -f "$BOOTSTRAP_DIR/custom/plists/com.khaosx.dailywork_$HOST_NAME.plist" ]; then
-	mv "$BOOTSTRAP_DIR/custom/plists/com.khaosx.dailywork_$HOST_NAME.plist" "$HOME/Library/LaunchAgents/com.khaosx.dailywork.plist"
-else
-	mv "$BOOTSTRAP_DIR/custom/plists/com.khaosx.dailywork_generic.plist" "$HOME/Library/LaunchAgents/com.khaosx.dailywork.plist"
-fi
-launchctl load ~/Library/LaunchAgents/com.khaosx.dailywork.plist
 
 # Copy over stubborn apps
 mkdir $HOME/temp_software
@@ -202,68 +131,40 @@ fi
 umount $HOME/temp_software
 rm -rf $HOME/temp_software
 
-if [ -f "$BOOTSTRAP_DIR/custom/$HOST_NAME" ]; then
-   source "$BOOTSTRAP_DIR/custom/$HOST_NAME"
+if [ -f "$BOOTSTRAP_CUSTOM/custom_setup" ]; then
+   printf "Applying per-system customizations\\n"
+   source "$BOOTSTRAP_CUSTOM/custom_setup"
 fi
 
-# Set up Dock
-source "$BOOTSTRAP_DIR"/install/macos-dock
+printf "Installing launchctl jobs\\n"
 
-post_echo "Done!"
+mkdir -p "$HOME/Library/LaunchAgents"
+if [ -f "$BOOTSTRAP_CUSTOM/com.khaosx.dailywork.plist" ]; then
+	mv "$BOOTSTRAP_CUSTOM/com.khaosx.dailywork.plist" "$HOME/Library/LaunchAgents/com.khaosx.dailywork.plist"
+	printf "Found system specific daily work job - configuring.\\n"
+else
+	mv "$BOOTSTRAP_DIR/lib/plists/com.khaosx.dailywork_generic.plist" "$HOME/Library/LaunchAgents/com.khaosx.dailywork.plist"
+	printf "No system specific daily work job found - configuring generic daemon.\\n"
+fi
+launchctl load ~/Library/LaunchAgents/com.khaosx.dailywork.plist
 
+if [ -f "$BOOTSTRAP_CUSTOM/dock" ]; then
+   printf "Applying dock customizations\\n"
+   source "$BOOTSTRAP_CUSTOM/dock"
+fi
 
-################################################################################
-# 5. Setup dotfiles
-################################################################################
+printf "Installing dotfiles\\n"
+git clone "https://github.com/khaosx/dotfiles.git" "dotfiles2"
+source "$BOOTSTRAP_DIR/bin/install_dotfiles"
 
-post_echo "Step 5: Installing dotfiles..."
+printf "Step 7: Cleaning up...\\n"
+#rm -rf "$BOOTSTRAP_DIR"
 
-source "$DOTFILES_DIR/install.sh"
-
-post_echo "Done!"
-
-################################################################################
-# 6. Set up terminal
-################################################################################
-
-post_echo "Step 6: Setting up terminal..."
-
-pathToTerminalPrefs="${HOME}/Library/Preferences/com.apple.Terminal.plist"
-/usr/libexec/PlistBuddy -c "Copy :Window\ Settings:Basic :Window\ Settings:Basic\ Improved" ${pathToTerminalPrefs}
-/usr/libexec/PlistBuddy -c "Set :Window\ Settings:Basic\ Improved:name Basic\ Improved" ${pathToTerminalPrefs}
-# Close if the shell exited cleanly
-/usr/libexec/PlistBuddy -c "Add :Window\ Settings:Basic\ Improved:shellExitAction integer 1" ${pathToTerminalPrefs}
-# Make the window a bit larger
-/usr/libexec/PlistBuddy -c "Add :Window\ Settings:Basic\ Improved:columnCount integer 120" ${pathToTerminalPrefs}
-/usr/libexec/PlistBuddy -c "Add :Window\ Settings:Basic\ Improved:rowCount integer 70" ${pathToTerminalPrefs}
-# Shell opens with: /bin/bash
-defaults write com.apple.Terminal Shell -string "/bin/bash"
-# Set the "Basic Improved" as the default
-defaults write com.apple.Terminal "Startup Window Settings" -string "Basic Improved"
-defaults write com.apple.Terminal "Default Window Settings" -string "Basic Improved"
-# Only use UTF-8 in Terminal.app
-defaults write com.apple.terminal StringEncodings -array 4
-
-post_echo "Done!"
-
-
-################################################################################
-# 7. Clean up
-################################################################################
-
-post_echo "Step 7: Cleaning up..."
-
-rm -rf "$BOOTSTRAP_DIR"
-
-post_echo "Done!"
-
-echo
-echo "**********************************************************************"
-echo "**********************************************************************"
-echo "****                                                              ****"
-echo "****            MacOS post-install script complete!               ****"
-echo "****                Please restart your computer.                 ****"
-echo "****                                                              ****"
-echo "**********************************************************************"
-echo "**********************************************************************"
-echo
+printf  "**********************************************************************"
+printf  "**********************************************************************"
+printf  "****                                                              ****"
+printf  "****            MacOS post-install script complete!               ****"
+printf  "****                Please restart your computer.                 ****"
+printf  "****                                                              ****"
+printf  "**********************************************************************"
+printf  "**********************************************************************"
