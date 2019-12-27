@@ -42,30 +42,13 @@ export dirAppHome=$HOME/AppTemp
 HOST_NAME=$(echo ${COMPUTER_NAME} | tr '[:upper:]' '[:lower:]')
 export HOST_NAME=${HOST_NAME}
 
-# Enabling location services
-
-sudo /usr/bin/defaults write /var/db/locationd/Library/Preferences/ByHost/com.apple.locationd LocationServicesEnabled -int 1
-uuid=$(/usr/sbin/system_profiler SPHardwareDataType | grep "Hardware UUID" | cut -c22-57)
-sudo /usr/bin/defaults write /var/db/locationd/Library/Preferences/ByHost/com.apple.locationd.$uuid LocationServicesEnabled -int 1
-
-# Configure automatic timezone
-
-sudo /usr/bin/defaults write /Library/Preferences/com.apple.timezone.auto Active -bool YES
-sudo /usr/bin/defaults write /private/var/db/timed/Library/Preferences/com.apple.timed.plist TMAutomaticTimeOnlyEnabled -bool YES
-sudo /usr/bin/defaults write /private/var/db/timed/Library/Preferences/com.apple.timed.plist TMAutomaticTimeZoneEnabled -bool YES
-
-sudo /usr/sbin/systemsetup -setusingnetworktime on
-sudo /usr/sbin/systemsetup -gettimezone
-sudo /usr/sbin/systemsetup -getnetworktimeserver
-
 # Get time zone
 export DEFAULT_TIME_ZONE="America/New_York" 
-#printf "Enter your desired time zone.\\n"
-#printf "To view available options run \`sudo systemsetup -listtimezones\`\\n"
-#printf "(Leave blank for default: $DEFAULT_TIME_ZONE)\\n" 
-#read TIME_ZONE
+printf "Enter your desired time zone.\\n"
+printf "To view available options run \`sudo systemsetup -listtimezones\`\\n"
+printf "(Leave blank for default: $DEFAULT_TIME_ZONE)\\n" 
+read TIME_ZONE
 export TIME_ZONE=${TIME_ZONE:-$DEFAULT_TIME_ZONE}
-#sudo /usr/sbin/systemsetup -setusingnetworktime on
 
 printf "Looks good. Here's what we've got so far.\\n"
 printf "Bootstrap script: ==> $BOOTSTRAP_REPO_URL\\n"
@@ -81,10 +64,7 @@ if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
   exit 1
 fi
 
-printf "Cloning github repo\\n"
-git clone "$BOOTSTRAP_REPO_URL" "$BOOTSTRAP_DIR"
-
-printf "Applying basic system info and installing HomeBrew.\\n"
+printf "Applying basic system info\\n"
 
 printf "Setting system label and name\\n"
 sudo scutil --set ComputerName $COMPUTER_NAME
@@ -92,8 +72,19 @@ sudo scutil --set HostName $HOST_NAME
 sudo scutil --set LocalHostName $HOST_NAME
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $HOST_NAME
 
-#printf "Setting system time zone\\n"
-#sudo systemsetup -settimezone "$TIME_ZONE" > /dev/null
+printf "Setting system time zone\\n"
+sudo systemsetup -settimezone "$TIME_ZONE" > /dev/null
+
+# Enabling location services
+sudo /usr/bin/defaults write /var/db/locationd/Library/Preferences/ByHost/com.apple.locationd LocationServicesEnabled -int 1
+uuid=$(/usr/sbin/system_profiler SPHardwareDataType | grep "Hardware UUID" | cut -c22-57)
+sudo /usr/bin/defaults write /var/db/locationd/Library/Preferences/ByHost/com.apple.locationd.$uuid LocationServicesEnabled -int 1
+
+# Configure automatic timezone
+sudo /usr/bin/defaults write /Library/Preferences/com.apple.timezone.auto Active -bool YES
+sudo /usr/bin/defaults write /private/var/db/timed/Library/Preferences/com.apple.timed.plist TMAutomaticTimeOnlyEnabled -bool YES
+sudo /usr/bin/defaults write /private/var/db/timed/Library/Preferences/com.apple.timed.plist TMAutomaticTimeZoneEnabled -bool YES
+sudo /usr/sbin/systemsetup -setusingnetworktime on
 
 printf "Installing HomeBrew\\n"
 echo | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"  > /dev/null
@@ -101,6 +92,9 @@ echo | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew
 printf "Setting up HomeBrew environment\\n"
 brew analytics off
 brew doctor
+
+printf "Cloning github repo\\n"
+git clone "$BOOTSTRAP_REPO_URL" "$BOOTSTRAP_DIR"
 
 printf "Applying macOS defaults\\n"
 source "$BOOTSTRAP_DIR/bin/apply_macos_defaults"
