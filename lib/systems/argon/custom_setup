@@ -14,7 +14,7 @@ swgetzip "$dirAppHome/photodateToFiledate.zip" https://free.brattoo.com/apps/pho
 # Disable Gatekeeper
 sudo spctl --master-disable
 
-if [ "$(ls $dirAppHome/*.dmg)" ]; then
+if ls $dirAppHome/*.dmg 1> /dev/null 2>&1; then
 	for f in $dirAppHome/*.dmg
 	do
 		strFilename=$(basename "$f")
@@ -28,14 +28,14 @@ if [ "$(ls $dirAppHome/*.dmg)" ]; then
 	done
 fi
 
-if [ "$(ls $dirAppHome/*.app)" ]; then
+if ls $dirAppHome/*.app 1> /dev/null 2>&1; then
 	for f in $dirAppHome/*.app
 	do
 		mv "$f" /Applications
 	done
 fi
 
-if [ "$(ls $dirAppHome/*.pkg)" ]; then
+if ls $dirAppHome/*.pkg 1> /dev/null 2>&1; then
 	for f in $dirAppHome/*.pkg
 	do
 		sudo installer -pkg "$f" -target /
