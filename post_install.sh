@@ -104,6 +104,8 @@ export BOOTSTRAP_CUSTOM=$BOOTSTRAP_DIR/lib/systems/$HOST_NAME
 if [ -f "$BOOTSTRAP_CUSTOM/brewfile" ]; then
    cp "$BOOTSTRAP_CUSTOM/brewfile" $HOME/.Brewfile
    brew bundle --global
+   printf "Running bundle install again to verify"
+   brew bundle --global
 fi
 
 # Copy over stubborn apps
