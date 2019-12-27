@@ -4,7 +4,7 @@ files=(
 "gitconfig"
 "gitignore"
 "gitmessage"
-"bash_profile"
+"zshrc"
 )
 
 for file in "${files[@]}"; do
