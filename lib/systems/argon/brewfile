@@ -19,7 +19,7 @@ brew "mpv"
 brew "wget"
 brew "ansible"
 brew "archey", args: ['HEAD']
-brew gist
+brew "gist"
 
 cask "appzapper"
 cask "backblaze"
