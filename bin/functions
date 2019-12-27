@@ -1,0 +1,6 @@
+# Software downloads (zip files) with wget
+swgetzip () {
+	wget --quiet -O "$1" "$2"
+	ditto -x -k "$1" "$dirAppHome/"
+	rm -f "$1"
+}
