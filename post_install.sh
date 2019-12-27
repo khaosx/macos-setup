@@ -22,6 +22,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # Let's get started
 export BOOTSTRAP_REPO_URL="https://github.com/khaosx/macos-setup.git"
 export BOOTSTRAP_DIR=$HOME/macos-setup
+export dirAppHome=$HOME/AppTemp
 clear
 printf "*************************************************************************\\n"
 printf "*******                                                           *******\\n"
@@ -36,7 +37,6 @@ export DEFAULT_COMPUTER_NAME="Lithium"
 printf "Enter a name for your Mac. (Leave blank for default: $DEFAULT_COMPUTER_NAME)\\n"
 read COMPUTER_NAME
 export COMPUTER_NAME=${COMPUTER_NAME:-$DEFAULT_COMPUTER_NAME}
-export dirAppHome=$HOME/AppTemp
 
 # I want all hostnames to be the lowercase version of the computer name
 HOST_NAME=$(echo ${COMPUTER_NAME} | tr '[:upper:]' '[:lower:]')
@@ -96,6 +96,9 @@ brew doctor
 printf "Cloning github repo\\n"
 git clone "$BOOTSTRAP_REPO_URL" "$BOOTSTRAP_DIR"
 
+printf "Loading functions\\n"
+source "$BOOTSTRAP_DIR/bin/functions"
+
 printf "Applying macOS defaults\\n"
 source "$BOOTSTRAP_DIR/bin/apply_macos_defaults"
 
@@ -120,8 +123,13 @@ if [ "$(ls $HOME/temp_software/OSX/Apps/$HOST_NAME)" ]; then
    cp -R $HOME/temp_software/OSX/Apps/$HOST_NAME/* ~/Desktop
 fi
 
+if [ "$(ls $HOME/Desktop/*.app)" ]; then
+   mv $HOME/Desktop/*.app /Applications
+fi
+
 if $(which slack >/dev/null); then
     source "$HOME/Desktop/slack_init.sh"
+    rm "$HOME/Desktop/slack_init.sh"
 fi
 
 umount $HOME/temp_software
@@ -150,7 +158,7 @@ if [ -f "$BOOTSTRAP_CUSTOM/dock" ]; then
 fi
 
 printf "Installing dotfiles\\n"
-git clone "https://github.com/khaosx/dotfiles.git" "dotfiles2"
+git clone "https://github.com/khaosx/dotfiles.git" "dotfiles"
 source "$BOOTSTRAP_DIR/bin/install_dotfiles"
 
 printf "Step 7: Cleaning up...\\n"

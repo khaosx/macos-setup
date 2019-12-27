@@ -6,48 +6,42 @@ mkdir $dirAppHome
 mkdir -p $HOME/.ssh
 mkdir -p $HOME/scripts
 
-# Download components
-dirAppHome=$HOME/AppTemp
-
-wget --quiet -O "$dirAppHome/Duplicate Annihilator for Photos.dmg.zip" https://brattoo.com/propaganda/downloadDap.php
-wget --quiet -O "$dirAppHome/photosSetLongitudeAndLatitude.zip" https://free.brattoo.com/apps/photosSetLongitudeAndLatitude.zip
-wget --quiet -O "$dirAppHome/photodateToFiledate.zip" https://free.brattoo.com/apps/photodateToFiledate.zip
-wget --quiet -O "$dirAppHome/MP3 Trimmer.dmg" http://deepniner.net/mp3trimmer/MP3%20Trimmer.dmg
-#wget --quiet -O "$dirAppHome/FileBot_4.8.2.pkg" https://get.filebot.net/filebot/FileBot_4.8.5/FileBot_4.8.5.pkg
+# Download extra apps (zip files)
+swgetzip "$dirAppHome/Duplicate Annihilator for Photos.dmg.zip" https://brattoo.com/propaganda/downloadDap.php
+swgetzip "$dirAppHome/photosSetLongitudeAndLatitude.zip" https://free.brattoo.com/apps/photosSetLongitudeAndLatitude.zip
+swgetzip "$dirAppHome/photodateToFiledate.zip" https://free.brattoo.com/apps/photodateToFiledate.zip
 
 # Disable Gatekeeper
 sudo spctl --master-disable
 
-# Install and cleanup 
-for f in $dirAppHome/*.zip
-do
-	unzip -qq -d $dirAppHome -n "$f"
-	rm "$f"
-	rm -rf $dirAppHome/__MACOSX
-done
+if [ "$(ls $dirAppHome/*.dmg)" ]; then
+	for f in $dirAppHome/*.dmg
+	do
+		strFilename=$(basename "$f")
+		strDMGName="${strFilename%.*}"
+		hdiutil attach -nobrowse "$f"
+		if [ -d "/Volumes/$strDMGName/$strDMGName.app" ]; then
+			cp -r "/Volumes/$strDMGName/$strDMGName.app" /Applications
+		fi
+		hdiutil detach "/Volumes/$strDMGName"
+		rm "$f"
+	done
+fi
 
-for f in $dirAppHome/*.dmg
-do
-	strFilename=$(basename "$f")
-	strDMGName="${strFilename%.*}"
-	hdiutil attach -nobrowse "$f"
-	if [ -d "/Volumes/$strDMGName/$strDMGName.app" ]; then
-		cp -r "/Volumes/$strDMGName/$strDMGName.app" /Applications
-	fi
-	hdiutil detach "/Volumes/$strDMGName"
-	rm "$f"
-done
+if [ "$(ls $dirAppHome/*.app)" ]; then
+	for f in $dirAppHome/*.app
+	do
+		mv "$f" /Applications
+	done
+fi
 
-for f in $dirAppHome/*.app
-do
-	mv "$f" /Applications
-done
-
-for f in $dirAppHome/*.pkg
-do
-	sudo installer -pkg "$f" -target /
-	rm "$f"
-done
+if [ "$(ls $dirAppHome/*.pkg)" ]; then
+	for f in $dirAppHome/*.pkg
+	do
+		sudo installer -pkg "$f" -target /
+		rm "$f"
+	done
+fi
 
 rm -rf $dirAppHome
 
