@@ -42,7 +42,7 @@ cask "subtools"
 cask "mp4tools"
 cask "musicbrainz-picard"
 cask "neofinder"
-cask "plex-media-player"
+cask "plex"
 cask "sony-ps4-remote-play"
 cask "slack"
 cask "sonos"
@@ -57,7 +57,6 @@ mas "Apple Configurator 2", id: 1037126344
 mas "AudioBookBinder", id: 413969927
 mas "AutoMounter", id: 1160435653
 mas "Blackmagic Disk Speed Test", id: 425264550
-mas "Disk Speed Test", id: 425264550
 mas "DxOOpticsProForPhotos", id: 1056077392
 mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
