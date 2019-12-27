@@ -15,6 +15,9 @@ wget --quiet -O "$dirAppHome/photodateToFiledate.zip" https://free.brattoo.com/a
 wget --quiet -O "$dirAppHome/MP3 Trimmer.dmg" http://deepniner.net/mp3trimmer/MP3%20Trimmer.dmg
 #wget --quiet -O "$dirAppHome/FileBot_4.8.2.pkg" https://get.filebot.net/filebot/FileBot_4.8.5/FileBot_4.8.5.pkg
 
+# Disable Gatekeeper
+sudo spctl --master-disable
+
 # Install and cleanup 
 for f in $dirAppHome/*.zip
 do
