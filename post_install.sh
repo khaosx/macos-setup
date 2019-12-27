@@ -32,6 +32,14 @@ printf "************************************************************************
 
 printf "Before we get started, let's get some info about your setup.\\n"
 
+printf "Have you signed in to the Mac App Store? (y/n)\\n"
+read is-signed-in
+echo
+if [[ ! "$is-signed-in" =~ ^[Yy]$ ]]; then
+  printf "Please sign into the Mac App Store\\n"
+  exit 1
+fi
+
 # Get system name
 export DEFAULT_COMPUTER_NAME="Lithium"
 printf "Enter a name for your Mac. (Leave blank for default: $DEFAULT_COMPUTER_NAME)\\n"
