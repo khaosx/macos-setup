@@ -1,0 +1,68 @@
+# Set power options - choices are laptop, desktop, or server
+source "$BOOTSTRAP_DIR/lib/power_settings/desktop"
+
+# Make user script and dev directories
+mkdir $dirAppHome
+mkdir -p $HOME/.ssh
+mkdir -p $HOME/scripts
+
+# Download extra apps (zip files)
+swgetzip "$dirAppHome/Duplicate Annihilator for Photos.dmg.zip" https://brattoo.com/propaganda/downloadDap.php
+swgetzip "$dirAppHome/photosSetLongitudeAndLatitude.zip" https://free.brattoo.com/apps/photosSetLongitudeAndLatitude.zip
+swgetzip "$dirAppHome/photodateToFiledate.zip" https://free.brattoo.com/apps/photodateToFiledate.zip
+
+# Disable Gatekeeper
+sudo spctl --master-disable
+
+if ls $dirAppHome/*.dmg 1> /dev/null 2>&1; then
+	for f in $dirAppHome/*.dmg
+	do
+		strFilename=$(basename "$f")
+		strDMGName="${strFilename%.*}"
+		hdiutil attach -nobrowse "$f"
+		if [ -d "/Volumes/$strDMGName/$strDMGName.app" ]; then
+			cp -r "/Volumes/$strDMGName/$strDMGName.app" /Applications
+		fi
+		hdiutil detach "/Volumes/$strDMGName"
+		rm "$f"
+	done
+fi
+
+if ls $dirAppHome/*.app 1> /dev/null 2>&1; then
+	for f in $dirAppHome/*.app
+	do
+		mv "$f" /Applications
+	done
+fi
+
+if ls $dirAppHome/*.pkg 1> /dev/null 2>&1; then
+	for f in $dirAppHome/*.pkg
+	do
+		sudo installer -pkg "$f" -target /
+		rm "$f"
+	done
+fi
+
+rm -rf $dirAppHome
+
+# Register filebot
+filebot --license /Users/kris/Desktop/FileBot_License_PX6127838.psm 
+rm /Users/kris/Desktop/FileBot_License_PX6127838.psm
+
+# Register Hazel
+open /Users/kris/Desktop/Kristopher\ Newman.hazellicense
+rm /Users/kris/Desktop/Kristopher\ Newman.hazellicense
+
+# Restore from storage drive
+if [ -d "/Volumes/Storage/$HOSTNAME/backups" ]; then
+	BackupPortable="/Volumes/Storage/$HOSTNAME/backups"
+	cp "$BackupPortable"/ssh/* $HOME/.ssh/
+	cp -R  "$BackupPortable"/scripts/* /Users/kris/scripts
+	rsync -r -v -t "$BackupPortable/MakeMKV/" $HOME/Library/MakeMKV
+	rsync -r -v -t "$BackupPortable/Hazel" "$HOME/Library/Application Support/"
+	cp "$BackupPortable/com.makemkv.MakeMKV.plist" "$HOME/Library/Preferences/com.makemkv.MakeMKV.plist"
+	cp "$BackupPortable/com.noodlesoft.Hazel.plist" "$HOME/Library/Preferences/com.noodlesoft.Hazel.plist"
+	cp "$BackupPortable/com.noodlesoft.HazelHelper.plist" "$HOME/Library/Preferences/com.noodlesoft.HazelHelper.plist"
+	cp "$BackupPortable/com.rogueamoeba.soundsource.plist" ""$HOME/Library/Preferences/com.rogueamoeba.soundsource.plist"
+	rm -rf "$BackupPortable"
+fi
