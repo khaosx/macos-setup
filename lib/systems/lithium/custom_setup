@@ -49,10 +49,6 @@ rm -rf $dirAppHome
 filebot --license /Users/kris/Desktop/FileBot_License_PX6127838.psm 
 rm /Users/kris/Desktop/FileBot_License_PX6127838.psm
 
-# Register Hazel
-open /Users/kris/Desktop/Kristopher\ Newman.hazellicense
-rm /Users/kris/Desktop/Kristopher\ Newman.hazellicense
-
 # Restore from storage drive
 if [ -d "/Volumes/Storage/$HOSTNAME/backups" ]; then
 	BackupPortable="/Volumes/Storage/$HOSTNAME/backups"
@@ -63,6 +59,6 @@ if [ -d "/Volumes/Storage/$HOSTNAME/backups" ]; then
 	cp "$BackupPortable/com.makemkv.MakeMKV.plist" "$HOME/Library/Preferences/com.makemkv.MakeMKV.plist"
 	cp "$BackupPortable/com.noodlesoft.Hazel.plist" "$HOME/Library/Preferences/com.noodlesoft.Hazel.plist"
 	cp "$BackupPortable/com.noodlesoft.HazelHelper.plist" "$HOME/Library/Preferences/com.noodlesoft.HazelHelper.plist"
-	cp "$BackupPortable/com.rogueamoeba.soundsource.plist" ""$HOME/Library/Preferences/com.rogueamoeba.soundsource.plist"
+	cp "$BackupPortable/com.rogueamoeba.soundsource.plist" "$HOME/Library/Preferences/com.rogueamoeba.soundsource.plist"
 	rm -rf "$BackupPortable"
 fi
