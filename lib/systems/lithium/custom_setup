@@ -56,6 +56,7 @@ git clone https://github.com/khaosx/convert_media.git
 git clone https://github.com/khaosx/convert_media_pwrshell.git
 git clone https://github.com/khaosx/dotfiles.git
 git clone https://github.com/khaosx/recipes.git
+cd $HOME
 
 # Restore from storage drive
 if [ -d "/Volumes/Storage/$HOST_NAME/backups" ]; then
