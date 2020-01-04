@@ -50,8 +50,8 @@ filebot --license /Users/kris/Desktop/FileBot_License_PX6127838.psm
 rm /Users/kris/Desktop/FileBot_License_PX6127838.psm
 
 # Restore from storage drive
-if [ -d "/Volumes/Storage/$HOSTNAME/backups" ]; then
-	BackupPortable="/Volumes/Storage/$HOSTNAME/backups"
+if [ -d "/Volumes/Storage/$HOST_NAME/backups" ]; then
+	BackupPortable="/Volumes/Storage/$HOST_NAME/backups"
 	cp "$BackupPortable"/ssh/* $HOME/.ssh/
 	cp -R  "$BackupPortable"/scripts/* /Users/kris/scripts
 	rsync -r -v -t "$BackupPortable/MakeMKV/" $HOME/Library/MakeMKV
