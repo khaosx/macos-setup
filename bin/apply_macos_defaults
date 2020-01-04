@@ -402,6 +402,14 @@ printf "%s\n" "Prevent Photos from opening automatically when devices are plugge
 defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
 
 ###############################################################################
+# Apps - Calendar
+###############################################################################
+
+printf "%s\n" "Shared calendar updates display as notifications"
+defaults write com.apple.iCal SharedCalendarNotificationsDisabled -bool false
+
+
+###############################################################################
 # Apps - TextEdit
 ###############################################################################
 
