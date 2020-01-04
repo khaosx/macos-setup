@@ -5,7 +5,6 @@ source "$BOOTSTRAP_DIR/lib/power_settings/desktop"
 mkdir $dirAppHome
 mkdir -p $HOME/.ssh
 mkdir -p $HOME/scripts
-mkdir -p $HOME/development
 
 # Download extra apps (zip files)
 swgetzip "$dirAppHome/Duplicate Annihilator for Photos.dmg.zip" https://brattoo.com/propaganda/downloadDap.php
@@ -51,6 +50,12 @@ filebot --license /Users/kris/Desktop/FileBot_License_PX6127838.psm
 rm /Users/kris/Desktop/FileBot_License_PX6127838.psm
 
 # Add git repos
+mkdir -p $HOME/development && cd $HOME/development
+git clone https://github.com/khaosx/macos-setup.git
+git clone https://github.com/khaosx/convert_media.git 
+git clone https://github.com/khaosx/convert_media_pwrshell.git
+git clone https://github.com/khaosx/dotfiles.git
+git clone https://github.com/khaosx/recipes.git
 
 # Restore from storage drive
 if [ -d "/Volumes/Storage/$HOST_NAME/backups" ]; then
