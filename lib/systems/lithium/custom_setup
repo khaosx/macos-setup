@@ -5,6 +5,7 @@ source "$BOOTSTRAP_DIR/lib/power_settings/desktop"
 mkdir $dirAppHome
 mkdir -p $HOME/.ssh
 mkdir -p $HOME/scripts
+mkdir -p $HOME/development
 
 # Download extra apps (zip files)
 swgetzip "$dirAppHome/Duplicate Annihilator for Photos.dmg.zip" https://brattoo.com/propaganda/downloadDap.php
@@ -48,6 +49,8 @@ rm -rf $dirAppHome
 # Register filebot
 filebot --license /Users/kris/Desktop/FileBot_License_PX6127838.psm 
 rm /Users/kris/Desktop/FileBot_License_PX6127838.psm
+
+# Add git repos
 
 # Restore from storage drive
 if [ -d "/Volumes/Storage/$HOST_NAME/backups" ]; then
