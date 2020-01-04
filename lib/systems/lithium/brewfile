@@ -2,8 +2,6 @@ cask_args appdir: "/Applications"
 cask_args colorpickerdir: "/Library/ColorPickers"
 cask_args fontdir: "/Library/Fonts"
 
-tap "homebrew/cask"
-tap "homebrew/bundle"
 tap "homebrew/cask-drivers"
 tap "buo/cask-upgrade"
 tap "homebrew/cask-fonts"
