@@ -122,6 +122,7 @@ fi
 # Copy over stubborn apps
 mkdir $HOME/temp_software
 mount_smbfs -N //guest@carbon/Software $HOME/temp_software
+pip3 install slack-cleaner
 
 if [ "$(ls $HOME/temp_software/OSX/Apps/all)" ]; then
    cp -R $HOME/temp_software/OSX/Apps/all/* ~/Desktop
