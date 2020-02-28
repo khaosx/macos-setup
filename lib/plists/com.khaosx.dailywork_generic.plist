@@ -2,10 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PATH</key>
+		<string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/kris/scripts:/usr/local/sbin</string>
+	</dict>
 	<key>Label</key>
 	<string>com.khaosx.dailywork</string>
 	<key>ProgramArguments</key>
 	<array>
+		<string>/usr/local/bin/fdautil</string>
+		<string>exec</string>
 		<string>/Users/kris/scripts/daily_work.sh</string>
 	</array>
 	<key>StartCalendarInterval</key>
@@ -13,7 +20,7 @@
 		<key>Hour</key>
 		<integer>5</integer>
 		<key>Minute</key>
-		<integer>00</integer>
+		<integer>0</integer>
 	</dict>
 </dict>
 </plist>
